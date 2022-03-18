@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children:  <Widget>[
                     const Text(
-                      'Sign up',
+                      'Log In',
                       style: TextStyle(
                         fontFamily: 'Mont',
                         color: Colors.white,
@@ -83,7 +83,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: const Text(
                         'Forgot Password?',
                         style: TextStyle(
-                          fontFamily: 'Mont',
                           color: Colors.blue,
                           fontSize: 15
                         )
@@ -99,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: TextButton(
                         onPressed: () => print('email: ${emailController.text}\npassword: ${pwController.text}'),
                         child: const Text(
-                          'Sign up',
+                          'Log In',
                           style: TextStyle(
                             fontFamily: 'Mont',
                             color: Colors.white,
@@ -107,7 +106,36 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                    )
+                    ),
+                    TextButton(
+                      onPressed: forgor,    //TO-DO: Create proper forget password page
+                      child: const Text(
+                        'New User?',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 15
+                        )
+                      )
+                    ),
+                    Container(
+                      height: 50,
+                      width: 200,
+                      decoration: BoxDecoration(
+                        color: Colors.blue[400],
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                      child: TextButton(
+                        onPressed: () => print('email: ${emailController.text}\npassword: ${pwController.text}'),
+                        child: const Text(
+                          'Sign Up',
+                          style: TextStyle(
+                            fontFamily: 'Mont',
+                            color: Colors.white,
+                            fontSize: 25,
+                          ),
+                        ),
+                      ),
+                    ),
                  ],
                ),
               ),  
