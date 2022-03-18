@@ -13,9 +13,11 @@ class LoginScreen extends StatefulWidget {
 
 
 class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController pwController = TextEditingController();
 
   void forgor() {
-  print("hello");
+  print("Forgot password pressed");
   }
 
   @override
@@ -50,8 +52,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children:  <Widget>[
                     const Text(
-                      'Sign in',
+                      'Sign up',
                       style: TextStyle(
+                        fontFamily: 'Mont',
                         color: Colors.white,
                         fontSize: 40,
                         fontWeight: FontWeight.bold
@@ -59,6 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 50),
                     buildFields(
+                      controllerType: emailController,
                       text:'Email', 
                       type: TextInputType.emailAddress, 
                       hintText: 'Email', 
@@ -67,6 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 10),
                     buildFields(
+                      controllerType: pwController,
                       text:'Password', 
                       type: TextInputType.text, 
                       hintText: 'Password', 
@@ -78,6 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: const Text(
                         'Forgot Password?',
                         style: TextStyle(
+                          fontFamily: 'Mont',
                           color: Colors.blue,
                           fontSize: 15
                         )
@@ -91,10 +97,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(10)
                       ),
                       child: TextButton(
-                        onPressed: () => print('Login pressed'), //TO-DO: Create authentication and route user to next page
+                        onPressed: () => print('email: ${emailController.text}\npassword: ${pwController.text}'),
                         child: const Text(
-                          'Login',
+                          'Sign up',
                           style: TextStyle(
+                            fontFamily: 'Mont',
                             color: Colors.white,
                             fontSize: 25,
                           ),
