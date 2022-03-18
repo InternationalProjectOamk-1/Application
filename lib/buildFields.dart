@@ -3,13 +3,18 @@ import 'package:flutter/services.dart';
 
 class buildFields extends StatelessWidget {
   buildFields(
-    {required this.text, required this.type, required this.hintText, required this.iconType, required this.obscure}
+    {
+    required this.text, required this.type,
+    required this.hintText, required this.iconType,
+    required this.obscure, required this.controllerType
+    }
   );
 final String text;
 final TextInputType type;
 final String hintText;
 final IconData iconType;
 final bool obscure;
+final TextEditingController controllerType;
 
 @override
 Widget build(BuildContext context) {
@@ -19,6 +24,7 @@ Widget build(BuildContext context) {
       Text(
         text,
         style: const TextStyle(
+          fontFamily: 'Mont',
           color: Colors.white,
           fontSize: 16,
           fontWeight: FontWeight.bold
@@ -42,6 +48,7 @@ Widget build(BuildContext context) {
         ),
         height: 60,
         child:  TextField(
+          controller: controllerType,
           keyboardType: type,
           obscureText: obscure,
           style: const TextStyle(
