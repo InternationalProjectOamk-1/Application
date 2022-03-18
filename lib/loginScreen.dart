@@ -20,6 +20,10 @@ class _LoginScreenState extends State<LoginScreen> {
   print("Forgot password pressed");
   }
 
+  void signUp() {
+  print("Sign Up pressed");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,16 +82,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       iconType: Icons.lock,
                       obscure: true
                     ),
+                    const SizedBox(height: 10),
                     TextButton(
                       onPressed: forgor,    //TO-DO: Create proper forget password page
                       child: const Text(
                         'Forgot Password?',
                         style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 15
+                          fontFamily: 'Mont',
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          decoration: TextDecoration.underline,
+                          fontSize: 18
                         )
                       )
                     ),
+                    const SizedBox(height: 10),
                     Container(
                       height: 50,
                       width: 200,
@@ -107,37 +116,31 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    TextButton(
-                      onPressed: forgor,    //TO-DO: Create proper forget password page
-                      child: const Text(
-                        'New User?',
+                    const SizedBox(height: 50),
+                    const Text(
+                        'Don\'t have an account?',
                         style: TextStyle(
+                          fontFamily: 'Mont',
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 18
+                        )
+                      ),
+                    TextButton(
+                      onPressed: signUp,    //TO-DO: Create proper forget password page
+                      child: const Text(
+                        'Sign Up Now',
+                        style: TextStyle(
+                          fontFamily: 'Mont',
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
                           color: Colors.blue,
-                          fontSize: 15
+                          fontSize: 22
                         )
                       )
                     ),
-                    Container(
-                      height: 50,
-                      width: 200,
-                      decoration: BoxDecoration(
-                        color: Colors.blue[400],
-                        borderRadius: BorderRadius.circular(10)
-                      ),
-                      child: TextButton(
-                        onPressed: () => print('email: ${emailController.text}\npassword: ${pwController.text}'),
-                        child: const Text(
-                          'Sign Up',
-                          style: TextStyle(
-                            fontFamily: 'Mont',
-                            color: Colors.white,
-                            fontSize: 25,
-                          ),
-                        ),
-                      ),
-                    ),
-                 ],
-               ),
+                  ],
+                ),
               ),  
             )
           ],
