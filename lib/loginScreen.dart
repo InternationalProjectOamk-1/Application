@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mapplication/home_screen.dart';
 import 'buildFields.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -9,59 +10,14 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-Widget buildEmail() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children:  <Widget>[
-      const Text(
-        'Email',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 16,
-          fontWeight: FontWeight.bold
-        )
-      ),
-      const SizedBox(
-        height: 10
-      ),
-      Container(
-        alignment: Alignment.centerLeft,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 6,
-              offset: Offset(0,2)
-            )
-          ]
-        ),
-        height: 60,
-        child: const TextField(
-          keyboardType: TextInputType.emailAddress,
-          style: TextStyle(
-            color: Colors.black87
-          ),
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.only(top: 14),
-            prefixIcon: Icon(
-              Icons.email,
-              color: Color(0xff5ac18e)
-            ),
-            hintText: 'Email',
-            hintStyle: TextStyle(
-              color: Colors.black38
-            )
-          ),
-        ),
-      )
-    ],
-  );
-}
+
 
 class _LoginScreenState extends State<LoginScreen> {
+
+  void forgor() {
+  print("hello");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,6 +72,34 @@ class _LoginScreenState extends State<LoginScreen> {
                       hintText: 'Password', 
                       iconType: Icons.lock,
                       obscure: true
+                    ),
+                    TextButton(
+                      onPressed: forgor,    //TO-DO: Create proper forget password page
+                      child: const Text(
+                        'Forgot Password?',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 15
+                        )
+                      )
+                    ),
+                    Container(
+                      height: 50,
+                      width: 200,
+                      decoration: BoxDecoration(
+                        color: Colors.blue[400],
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                      child: TextButton(
+                        onPressed: () => print('Login pressed'), //TO-DO: Create authentication and route user to next page
+                        child: const Text(
+                          'Login',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 25,
+                          ),
+                        ),
+                      ),
                     )
                  ],
                ),
