@@ -117,13 +117,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       iconType: Icons.lock,
                       obscure: true
                     )
-                ],
-              ),
+                 ],
+               ),
               ),  
             )
           ],
-        ),),
-      
+        ),
+      ),
     );
   }
 }
