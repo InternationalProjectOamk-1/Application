@@ -57,6 +57,21 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  assets:
+    - assets/
+
+  fonts:
+    - family: Oceanic
+      fonts:
+        - asset: assets/fonts/oceanicdrift.ttf
+    - family: Mont
+      fonts:
+        - asset: assets/fonts/Mont-ExtraLightDEMO.otf
+        - asset: assets/fonts/Mont-HeavyDEMO.otf
+    - family: Akira
+      fonts:
+        - asset: assets/fonts/Akira-expanded-Demo.otf
+        
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
