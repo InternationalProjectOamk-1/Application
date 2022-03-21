@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mapplication/home_screen.dart';
-import 'buildFields.dart';
+import 'package:mapplication/views/signup_view.dart';
+import '../widgets/input_field_widget.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({ Key? key }) : super(key: key);
@@ -9,8 +9,6 @@ class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
-
-
 
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
@@ -127,7 +125,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         )
                       ),
                     TextButton(
-                      onPressed: signUp,    //TO-DO: Create proper forget password page
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const SignInScreen()),
+                        );
+                      },   //TO-DO: Create proper forget password page
                       child: const Text(
                         'Sign Up Now',
                         style: TextStyle(
