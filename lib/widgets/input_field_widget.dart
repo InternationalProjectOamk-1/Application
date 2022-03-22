@@ -4,11 +4,12 @@ import 'package:flutter/services.dart';
 class buildFields extends StatelessWidget {
   buildFields(
     {
-    required this.text, required this.type,
-    required this.hintText, required this.iconType,
-    required this.obscure, required this.controllerType
+      required this.text, required this.type,
+      required this.hintText, required this.iconType,
+      required this.obscure, required this.controllerType
     }
   );
+
 final String text;
 final TextInputType type;
 final String hintText;
@@ -21,18 +22,6 @@ Widget build(BuildContext context) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children:  <Widget>[
-      Text(
-        text,
-        style: const TextStyle(
-          fontFamily: 'Mont',
-          color: Colors.white,
-          fontSize: 16,
-          fontWeight: FontWeight.bold
-        )
-      ),
-      const SizedBox(
-        height: 10
-      ),
       Container(
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
@@ -46,7 +35,7 @@ Widget build(BuildContext context) {
             )
           ]
         ),
-        height: 60,
+        height: 45,
         child:  TextField(
           controller: controllerType,
           keyboardType: type,
@@ -56,18 +45,19 @@ Widget build(BuildContext context) {
           ),
           decoration: InputDecoration(
             border: InputBorder.none,
-            contentPadding: EdgeInsets.only(top: 14),
+            contentPadding: const EdgeInsets.only(top: 14),
             prefixIcon: Icon(
               iconType,
-              color: Color(0xff5ac18e)
+              color: const Color(0xff5ac18e)
             ),
             hintText: hintText,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               color: Colors.black38
             )
           ),
         ),
-      )
+      ),
+      const SizedBox(height: 20)
     ],
   );
 }
