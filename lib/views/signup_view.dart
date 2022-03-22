@@ -11,6 +11,7 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   TextEditingController emailController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
   TextEditingController pwController1 = TextEditingController();
   TextEditingController pwController2 = TextEditingController();
 
@@ -69,6 +70,15 @@ class _SignInScreenState extends State<SignInScreen> {
                       type: TextInputType.emailAddress, 
                       hintText: 'Email', 
                       iconType: Icons.email,
+                      obscure: false,
+                    ),
+                    const SizedBox(height: 10),
+                    buildFields(
+                      controllerType: emailController,
+                      text:'Username', 
+                      type: TextInputType.text, 
+                      hintText: 'Username', 
+                      iconType: Icons.account_circle,
                       obscure: false,
                     ),
                     const SizedBox(height: 10),
