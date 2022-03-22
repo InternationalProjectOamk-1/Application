@@ -34,14 +34,11 @@ class _LoginScreenState extends State<LoginScreen> {
               width: double.infinity,
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                   colors: [
                     Color(0xff5ac18e),
-                    Color(0xff5ac18e),
-                    Color(0xff5ac18e),
-                    Color(0xff5ac18e),
-                    Color(0xff5ac18e),
+                    Colors.white,
                   ]
                 )
               ),
@@ -59,7 +56,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontFamily: 'Mont',
                         color: Colors.white,
                         fontSize: 40,
-                        fontWeight: FontWeight.bold
                       ),
                     ),
                     const SizedBox(height: 50),
