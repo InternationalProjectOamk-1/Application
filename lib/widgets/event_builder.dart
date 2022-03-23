@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mapplication/data/events.dart';
+import 'package:mapplication/styles/home_style.dart';
 
-Padding EventBuilder(BuildContext context, int index) {
+Padding eventBuilder(BuildContext context, int index) {
   return Padding(
     padding: const EdgeInsets.all(10.0),
     child: GestureDetector(
@@ -16,10 +17,7 @@ Padding EventBuilder(BuildContext context, int index) {
       ),
       child: Container(
         padding: const EdgeInsets.all(5.0),
-        decoration: BoxDecoration(
-          color: Colors.orange[100],
-          borderRadius: BorderRadius.circular(13),
-        ),
+        decoration: myOrangeCustom,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

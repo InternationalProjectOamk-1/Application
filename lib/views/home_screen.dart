@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
             child: ListView.builder(
               itemCount: event_data.length,
               itemBuilder: (context, index) {
-                return EventBuilder(context, index);
+                return eventBuilder(context, index);
               },
             ),
           )
