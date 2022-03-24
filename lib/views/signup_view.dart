@@ -1,6 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+
 import '../widgets/input_field_widget.dart';
+
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({ Key? key }) : super(key: key);
@@ -10,18 +14,41 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController usernameController = TextEditingController();
-  TextEditingController pwController1 = TextEditingController();
-  TextEditingController pwController2 = TextEditingController();
+
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _pwController = TextEditingController();
+  TextEditingController _pwConfirmController = TextEditingController();
+
+  bool _isLoading = false;
 
   void forgor() {
   print("Forgot password pressed");
   }
 
-  void signUp() {
-  print("Sign Up pressed");
+   //FIGURE OUT WHY THE SIGN IN METHOD IS GET?
+
+  signUp(String email, String username, String password) async {
+    Map data = {
+      'email': email,
+      'username': username,
+      'password': password
+    };
+    var jsonData = null;
+    var url = Uri.parse('https://eeventify.github.io/Login/Register');
+    var response = await http.post(
+      url,
+      body: data
+    );
+    if(response.statusCode == 200) {
+      jsonData = jsonDecode(response.body);
+    }
+    else {
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -61,39 +88,31 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                     const SizedBox(height: 50),
                     buildFields(
-                      controllerType: emailController,
+                      controllerType: _emailController,
                       text:'Email', 
                       type: TextInputType.emailAddress, 
-                      hintText: 'Email', 
-                      iconType: Icons.email,
-                      obscure: false,
+                      iconType: Icons.email
                     ),
                     const SizedBox(height: 10),
                     buildFields(
-                      controllerType: emailController,
+                      controllerType: _usernameController,
                       text:'Username', 
                       type: TextInputType.text, 
-                      hintText: 'Username', 
-                      iconType: Icons.account_circle,
-                      obscure: false,
+                      iconType: Icons.account_circle
                     ),
                     const SizedBox(height: 10),
                     buildFields(
-                      controllerType: pwController1,
+                      controllerType: _pwController,
                       text:'Password', 
-                      type: TextInputType.text, 
-                      hintText: 'Password', 
-                      iconType: Icons.lock,
-                      obscure: true
+                      type: TextInputType.text,
+                      iconType: Icons.lock
                     ),
                     const SizedBox(height: 10), //TO-DO: Add password confirmation function
                     buildFields(
-                      controllerType: pwController2,
+                      controllerType: _pwConfirmController,
                       text:'Confirm Password', 
-                      type: TextInputType.text, 
-                      hintText: 'Password', 
+                      type: TextInputType.text,  
                       iconType: Icons.lock,
-                      obscure: true
                     ),
                     const SizedBox(height: 50),
                     Container(
@@ -104,7 +123,12 @@ class _SignInScreenState extends State<SignInScreen> {
                         borderRadius: BorderRadius.circular(10)
                       ),
                       child: TextButton(
-                        onPressed: () => print('email: ${emailController.text}\npassword: ${pwController1.text}'),
+                        onPressed: () {
+                          setState(() {
+                            _isLoading = true;
+                          });
+                          signUp(_emailController.text, _usernameController.text, _pwController.text);
+                        },
                         child: const Text(
                           'Sign Up',
                           style: TextStyle(
