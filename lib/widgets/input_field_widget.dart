@@ -5,16 +5,14 @@ class buildFields extends StatelessWidget {
   buildFields(
     {
       required this.text, required this.type,
-      required this.hintText, required this.iconType,
-      required this.obscure, required this.controllerType
+      required this.iconType, required this.controllerType
     }
   );
 
 final String text;
 final TextInputType type;
-final String hintText;
 final IconData iconType;
-final bool obscure;
+
 final TextEditingController controllerType;
 
 @override
@@ -39,7 +37,7 @@ Widget build(BuildContext context) {
         child:  TextField(
           controller: controllerType,
           keyboardType: type,
-          obscureText: obscure,
+          obscureText: text.contains('Password') ? true : false,
           style: const TextStyle(
             color: Colors.black87
           ),
@@ -50,7 +48,7 @@ Widget build(BuildContext context) {
               iconType,
               color: const Color(0xff5ac18e)
             ),
-            hintText: hintText,
+            hintText: text,
             hintStyle: const TextStyle(
               color: Colors.black38
             )
