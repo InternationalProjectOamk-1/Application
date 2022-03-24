@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:mapplication/views/signup_view.dart';
 import '../widgets/input_field_widget.dart';
 
@@ -11,8 +14,32 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController pwController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _pwController = TextEditingController();
+
+  bool _isLoading = false;
+
+
+  //FIGURE OUT WHY THE LOGIN METHOD IS GET?
+
+  signIn(String email, String password) async {
+    Map data = {
+      'email': email,
+      'password': password
+    };
+    var jsonData = null;
+    var url = Uri.parse('https://eeventify.github.io/Login');
+    var response = await http.post(
+      url,
+      body: data
+    );
+    if(response.statusCode == 200) {
+    }
+    else {
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+    }
+  }
 
   void forgor() {
   print("Forgot password pressed");
@@ -60,21 +87,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 50),
                     buildFields(
-                      controllerType: emailController,
+                      controllerType: _emailController,
                       text:'Email', 
-                      type: TextInputType.emailAddress, 
-                      hintText: 'Email', 
-                      iconType: Icons.email,
-                      obscure: false,
+                      type: TextInputType.emailAddress,  
+                      iconType: Icons.email
                     ),
                     const SizedBox(height: 10),
                     buildFields(
-                      controllerType: pwController,
+                      controllerType: _pwController,
                       text:'Password', 
                       type: TextInputType.text, 
-                      hintText: 'Password', 
-                      iconType: Icons.lock,
-                      obscure: true
+                      iconType: Icons.lock
                     ),
                     const SizedBox(height: 10),
                     TextButton(
@@ -99,7 +122,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(10)
                       ),
                       child: TextButton(
-                        onPressed: () => print('email: ${emailController.text}\npassword: ${pwController.text}'),
+                        onPressed: () {
+                          setState(() {
+                            _isLoading = true;
+                          });
+                          signIn(_emailController.text, _pwController.text);
+                        },
                         child: const Text(
                           'Log In',
                           style: TextStyle(
