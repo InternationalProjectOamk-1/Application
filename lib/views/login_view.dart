@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:mapplication/views/signup_view.dart';
 import '../widgets/input_field_widget.dart';
+import '../consts/user_service_consts.dart ' as constants;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({ Key? key }) : super(key: key);
@@ -28,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
       'password': password
     };
     var jsonData = null;
-    var url = Uri.parse('https://eeventify.github.io/Login');
+    var url = Uri.parse(constants.LOGIN_URI);
     var response = await http.post(
       url,
       body: data
