@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 import '../widgets/input_field_widget.dart';
+import '../consts/user_service_consts.dart ' as constants;
 
 
 class SignInScreen extends StatefulWidget {
@@ -35,7 +36,7 @@ class _SignInScreenState extends State<SignInScreen> {
       'password': password
     };
     var jsonData = null;
-    var url = Uri.parse('https://eeventify.github.io/Login/Register');
+    var url = Uri.parse(constants.REGISTER_URI);
     var response = await http.post(
       url,
       body: data
