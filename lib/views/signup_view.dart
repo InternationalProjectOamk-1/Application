@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:mapplication/views/login_view.dart';
+import 'package:mapplication/widgets/input_error_notice.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/input_field_widget.dart';
@@ -24,6 +25,7 @@ class _SignInScreenState extends State<SignInScreen> {
   TextEditingController _pwConfirmController = TextEditingController();
 
   bool _signUpPressed = false;
+  bool _inputError = false;
 
   void forgor() {
   print("Forgot password pressed");
@@ -32,6 +34,7 @@ class _SignInScreenState extends State<SignInScreen> {
    //FIGURE OUT WHY THE SIGN IN METHOD IS GET?
 
   signUp(String email, String username, String password) async {
+    
     Map data = {
       'email': email,
       'username': username,
@@ -39,37 +42,38 @@ class _SignInScreenState extends State<SignInScreen> {
     };
     var jsonData = null;
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    
     var url = Uri.parse(constants.REGISTER_URI);
     var response = await http.post(
       url,
       body: data
     );
     if(response.statusCode == 200) {
+      _inputError = false;
       jsonData = jsonDecode(response.body);
 
       //CORRECT FUNCTION PLACE HERE
 
-      /*setState(() {
+      setState(() {
         sharedPreferences.setString('token', jsonData['token']);
         Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => const SignInScreen()), (route) => false);
-      });*/
+      });
     } 
     else if(response.statusCode == 202) {
-      jsonData = jsonDecode(response.body);
+      _inputError = true;
       print('Response status: ${response.statusCode}');
-      print('Incorrect input detected');
-      
     }
     else {
-      print('Problem with request');
+      _inputError = true;
       print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
-
+      
       //REMOVE LATER FROM HERE, USED FOR TESTING TOKEN STORING AND RETRIEVAL. 
+      /*
       setState(() {
         sharedPreferences.setString('token', 'testToken');
         Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => const LoginScreen()), (route) => false);
       });
+      */
     }
   }
 
@@ -110,36 +114,44 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                     ),
                     const SizedBox(height: 50),
-                    buildFields(
+                    BuildFields(
                       controllerType: _emailController,
                       text:'Email', 
                       type: TextInputType.emailAddress, 
                       iconType: Icons.email
                     ),
                     const SizedBox(height: 10),
-                    buildFields(
+                    BuildFields(
                       controllerType: _usernameController,
                       text:'Username', 
                       type: TextInputType.text, 
                       iconType: Icons.account_circle
                     ),
                     const SizedBox(height: 10),
-                    buildFields(
+                    BuildFields(
                       controllerType: _pwController,
                       text:'Password', 
                       type: TextInputType.text,
                       iconType: Icons.lock
                     ),
                     const SizedBox(height: 10), //TO-DO: Add password confirmation function
-                    buildFields(
+                    BuildFields(
                       controllerType: _pwConfirmController,
                       text:'Confirm Password', 
                       type: TextInputType.text,  
                       iconType: Icons.lock,
                     ),
+                    
+                    _inputError
+                    ?
+                    const InputError(
+                      typeOfError: "Test")
+                    :
+                    const SizedBox(height: 0),
+
                     const SizedBox(height: 50),
                     
-                    _signUpPressed == true
+                    _signUpPressed == true && _inputError != true
                     ?
                     const Text(
                       'Redirecting to Login',
@@ -152,7 +164,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     :
                     Container(
                       height: 50,
-                      width: 200,
+                      width: 125,
                       decoration: BoxDecoration(
                         color: Colors.blue[400],
                         borderRadius: BorderRadius.circular(10)

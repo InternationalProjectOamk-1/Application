@@ -108,14 +108,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     const SizedBox(height: 50),
-                    buildFields(
+                    BuildFields(
                       controllerType: _emailController,
                       text:'Email', 
                       type: TextInputType.emailAddress,  
                       iconType: Icons.email
                     ),
                     const SizedBox(height: 8),
-                    buildFields(
+                    BuildFields(
                       controllerType: _pwController,
                       text:'Password', 
                       type: TextInputType.text, 
