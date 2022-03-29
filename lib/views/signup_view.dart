@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:mapplication/views/login_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/input_field_widget.dart';
 import '../consts/user_service_consts.dart ' as constants;
@@ -21,7 +23,7 @@ class _SignInScreenState extends State<SignInScreen> {
   TextEditingController _pwController = TextEditingController();
   TextEditingController _pwConfirmController = TextEditingController();
 
-  bool _isLoading = false;
+  bool _signUpPressed = false;
 
   void forgor() {
   print("Forgot password pressed");
@@ -36,6 +38,7 @@ class _SignInScreenState extends State<SignInScreen> {
       'password': password
     };
     var jsonData = null;
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var url = Uri.parse(constants.REGISTER_URI);
     var response = await http.post(
       url,
@@ -43,13 +46,32 @@ class _SignInScreenState extends State<SignInScreen> {
     );
     if(response.statusCode == 200) {
       jsonData = jsonDecode(response.body);
+
+      //CORRECT FUNCTION PLACE HERE
+
+      /*setState(() {
+        sharedPreferences.setString('token', jsonData['token']);
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => const SignInScreen()), (route) => false);
+      });*/
+    } 
+    else if(response.statusCode == 202) {
+      jsonData = jsonDecode(response.body);
+      print('Response status: ${response.statusCode}');
+      print('Incorrect input detected');
+      
     }
     else {
+      print('Problem with request');
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.body}');
+
+      //REMOVE LATER FROM HERE, USED FOR TESTING TOKEN STORING AND RETRIEVAL. 
+      setState(() {
+        sharedPreferences.setString('token', 'testToken');
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => const LoginScreen()), (route) => false);
+      });
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -116,6 +138,18 @@ class _SignInScreenState extends State<SignInScreen> {
                       iconType: Icons.lock,
                     ),
                     const SizedBox(height: 50),
+                    
+                    _signUpPressed == true
+                    ?
+                    const Text(
+                      'Redirecting to Login',
+                      style: TextStyle(
+                        fontFamily: 'Mont',
+                        color: Colors.black,
+                        fontSize: 23,
+                      ),
+                    ) 
+                    :
                     Container(
                       height: 50,
                       width: 200,
@@ -126,7 +160,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       child: TextButton(
                         onPressed: () {
                           setState(() {
-                            _isLoading = true;
+                            _signUpPressed = true;
                           });
                           signUp(_emailController.text, _usernameController.text, _pwController.text);
                         },
@@ -135,10 +169,23 @@ class _SignInScreenState extends State<SignInScreen> {
                           style: TextStyle(
                             fontFamily: 'Mont',
                             color: Colors.white,
-                            fontSize: 25,
+                            fontSize: 23,
                           ),
                         ),
                       ),
+                    ),
+                    const SizedBox(height: 50),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: Colors.blue,
+                        size: 40,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => const LoginScreen()), (route) => false);
+                        });
+                      },
                     ),
                   ],
                 ),
