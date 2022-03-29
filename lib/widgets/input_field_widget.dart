@@ -24,7 +24,7 @@ Widget build(BuildContext context) {
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(25),
           boxShadow: const [
             BoxShadow(
               color: Colors.black26,
@@ -43,7 +43,7 @@ Widget build(BuildContext context) {
           ),
           decoration: InputDecoration(
             border: InputBorder.none,
-            contentPadding: const EdgeInsets.only(top: 14),
+            contentPadding: const EdgeInsets.only(top: 12),
             prefixIcon: Icon(
               iconType,
               color: const Color(0xff5ac18e)
@@ -55,7 +55,7 @@ Widget build(BuildContext context) {
           ),
         ),
       ),
-      const SizedBox(height: 20)
+      const SizedBox(height: 10)
     ],
   );
 }
