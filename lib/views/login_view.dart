@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:mapplication/home_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:mapplication/views/signup_view.dart';
 import '../widgets/input_field_widget.dart';
@@ -28,26 +30,45 @@ class _LoginScreenState extends State<LoginScreen> {
       'email': email,
       'password': password
     };
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var jsonData = null;
     var url = Uri.parse(constants.LOGIN_URI);
     var response = await http.post(
       url,
       body: data
     );
+    
     if(response.statusCode == 200) {
+      jsonData = jsonDecode(response.body);
+
+      //CORRECT FUNCTION PLACE HERE
+
+      /*setState(() {
+        sharedPreferences.setString('token', jsonData['token']);
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => const SignInScreen()), (route) => false);
+      });*/
+    } 
+    else if(response.statusCode == 202) {
+      jsonData = jsonDecode(response.body);
+      print('Response status: ${response.statusCode}');
+      print('Incorrect input detected');
+      
     }
     else {
+      print('Problem with request');
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.body}');
+
+      //REMOVE LATER FROM HERE, USED FOR TESTING TOKEN STORING AND RETRIEVAL. 
+      setState(() {
+        sharedPreferences.setString('JWT', 'ExampleToken');
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => const HomeScreen()), (route) => false);
+      });
     }
   }
 
   void forgor() {
   print("Forgot password pressed");
-  }
-
-  void signUp() {
-  print("Sign Up pressed");
   }
 
   @override
@@ -93,24 +114,24 @@ class _LoginScreenState extends State<LoginScreen> {
                       type: TextInputType.emailAddress,  
                       iconType: Icons.email
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 8),
                     buildFields(
                       controllerType: _pwController,
                       text:'Password', 
                       type: TextInputType.text, 
                       iconType: Icons.lock
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 8),
                     TextButton(
-                      onPressed: forgor,    //TO-DO: Create proper forget password page
+                      onPressed: forgor,
+                          //TO-DO: Create proper forget password page
                       child: const Text(
-                        'Forgot Password?',
+                        'Forgot Password ?',
                         style: TextStyle(
                           fontFamily: 'Mont',
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
-                          decoration: TextDecoration.underline,
-                          fontSize: 18
+                          fontSize: 16
                         )
                       )
                     ),
@@ -139,14 +160,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 50),
+                    const SizedBox(height: 200),
                     const Text(
                         'Don\'t have an account?',
                         style: TextStyle(
                           fontFamily: 'Mont',
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
-                          fontSize: 18
+                          fontSize: 16
                         )
                       ),
                     TextButton(
@@ -157,13 +178,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                       },   //TO-DO: Create proper forget password page
                       child: const Text(
-                        'Sign Up Now',
+                        'Sign Up Here',
                         style: TextStyle(
                           fontFamily: 'Mont',
                           fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.underline,
                           color: Colors.blue,
-                          fontSize: 22
+                          fontSize: 16
                         )
                       )
                     ),
