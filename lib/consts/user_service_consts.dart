@@ -1,2 +1,6 @@
-const String LOGIN_URI= 'https://eeventify.github.io/Login';
-const String REGISTER_URI = 'https://eeventify.github.io/Login/Register';
+const String BASE_PATH = 'office.pepr.com:25252';
+
+const String LOGIN= '/Login';
+
+const String REGISTER = 'Login/Register';
+
