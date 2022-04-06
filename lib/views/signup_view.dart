@@ -10,6 +10,13 @@ import '../widgets/input_field_widget.dart';
 import '../consts/user_service_consts.dart ' as constants;
 
 
+/*
+TO-DO: 
+- Implement errors for different HTTP codes.
+- Widgets for showing errors below fields
+- Remove print functions when done.
+*/
+
 class SignInScreen extends StatefulWidget {
   const SignInScreen({ Key? key }) : super(key: key);
 
@@ -19,8 +26,8 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
 
-  TextEditingController _emailController = TextEditingController();
   TextEditingController _usernameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
   TextEditingController _pwController = TextEditingController();
   TextEditingController _pwConfirmController = TextEditingController();
 
@@ -31,52 +38,50 @@ class _SignInScreenState extends State<SignInScreen> {
   print("Forgot password pressed");
   }
 
-   //FIGURE OUT WHY THE SIGN IN METHOD IS GET?
-
-  signUp(String email, String username, String password) async {
-    
-    Map data = {
-      'email': email,
+  void register(String username, email, password) async {
+    Map<String, String> data = {
       'username': username,
+      'email': email,
       'password': password
     };
-    var jsonData = null;
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    
-    var url = Uri.parse(constants.REGISTER_URI);
-    var response = await http.post(
-      url,
-      body: data
-    );
-    if(response.statusCode == 200) {
-      _inputError = false;
-      jsonData = jsonDecode(response.body);
 
-      //CORRECT FUNCTION PLACE HERE
-
-      setState(() {
-        sharedPreferences.setString('token', jsonData['token']);
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => const SignInScreen()), (route) => false);
-      });
-    } 
-    else if(response.statusCode == 202) {
-      _inputError = true;
-      print('Response status: ${response.statusCode}');
-    }
-    else {
-      _inputError = true;
-      print('Response status: ${response.statusCode}');
+    try{
       
-      //REMOVE LATER FROM HERE, USED FOR TESTING TOKEN STORING AND RETRIEVAL. 
-      /*
-      setState(() {
-        sharedPreferences.setString('token', 'testToken');
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => const LoginScreen()), (route) => false);
-      });
-      */
+    http.Response response = await http.post(
+        
+        Uri.http(constants.BASE_PATH, constants.REGISTER),
+        headers: <String, String>{
+        'Content-Type': 'application/json',
+        },
+        body: jsonEncode(data)
+      );
+
+      var jsonData = null;
+
+      if(response.statusCode == 200){
+        
+        String responseApi = response.body.toString().replaceAll("\n","");
+        jsonData = jsonDecode(responseApi); 
+        print(jsonData['token']);
+        print('Login successfully');
+
+      }else {
+
+        print(response.statusCode);
+        String responseApi = response.body.toString().replaceAll("\n","");
+
+        if(responseApi.isNotEmpty){
+          print(responseApi);
+        } else {
+          print('No content to show');
+        }
+        
+      }
+    }catch(e){
+      print(e.toString());
     }
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,17 +120,17 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                     const SizedBox(height: 50),
                     BuildFields(
-                      controllerType: _emailController,
-                      text:'Email', 
-                      type: TextInputType.emailAddress, 
-                      iconType: Icons.email
-                    ),
-                    const SizedBox(height: 10),
-                    BuildFields(
                       controllerType: _usernameController,
                       text:'Username', 
                       type: TextInputType.text, 
                       iconType: Icons.account_circle
+                    ),
+                    const SizedBox(height: 10),
+                    BuildFields(
+                      controllerType: _emailController,
+                      text:'Email', 
+                      type: TextInputType.emailAddress, 
+                      iconType: Icons.email
                     ),
                     const SizedBox(height: 10),
                     BuildFields(
@@ -151,7 +156,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
                     const SizedBox(height: 50),
                     
-                    _signUpPressed == true && _inputError != true
+                    _signUpPressed == true && _inputError != false
                     ?
                     const Text(
                       'Redirecting to Login',
@@ -174,7 +179,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           setState(() {
                             _signUpPressed = true;
                           });
-                          signUp(_emailController.text, _usernameController.text, _pwController.text);
+                          register(_usernameController.text, _emailController.text, _pwController.text);
                         },
                         child: const Text(
                           'Sign Up',
