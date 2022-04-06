@@ -3,11 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:mapplication/home_screen.dart';
+import 'package:mapplication/widgets/login_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:mapplication/views/signup_view.dart';
 import '../widgets/input_field_widget.dart';
 import '../consts/user_service_consts.dart ' as constants;
+
+
+/*
+TO-DO: 
+- Implement errors for different HTTP codes.
+- Widgets for showing errors below fields
+- Remove print functions when done.
+*/
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({ Key? key }) : super(key: key);
@@ -21,54 +31,88 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _pwController = TextEditingController();
 
   bool _isLoading = false;
+  bool _inputError = false;
 
 
   //FIGURE OUT WHY THE LOGIN METHOD IS GET?
 
-  signIn(String email, String password) async {
-    Map data = {
+  logIn(String email, String password) async {
+
+    Map <String,String> data = {
       'email': email,
       'password': password
     };
+
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var jsonData = null;
-    var url = Uri.parse(constants.LOGIN_URI);
-    var response = await http.post(
+    var url = Uri.http(constants.BASE_PATH, constants.LOGIN, data);
+    var response = await http.get(
       url,
-      body: data
+      headers: {"Accept":"application/json"}
     );
     
-    if(response.statusCode == 200) {
-      jsonData = jsonDecode(response.body);
+    switch (response.statusCode) {
 
-      //CORRECT FUNCTION PLACE HERE
+      case 200 : {
+        print('Response status: ${response.statusCode}');
+        _inputError = false;
+        String responseApi = response.body.toString().replaceAll("\n","");
+        jsonData = jsonDecode(responseApi);     // jsonData = JWT in case of return statusCode 200.
+        
+        print(jsonData);
+        
+        setState(() {
+          sharedPreferences.setString('token', jsonData);
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => const SignInScreen()), (route) => false);
+        });
+        
+      }
+      break;
 
-      /*setState(() {
-        sharedPreferences.setString('token', jsonData['token']);
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => const SignInScreen()), (route) => false);
-      });*/
-    } 
-    else if(response.statusCode == 202) {
-      jsonData = jsonDecode(response.body);
-      print('Response status: ${response.statusCode}');
-      print('Incorrect input detected');
-      
-    }
-    else {
-      print('Problem with request');
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
+      case 202 : {
+        print('Response status: ${response.statusCode}');
+        _inputError = true;
+         String responseApi = response.body.toString().replaceAll("\n","");
+        jsonData = jsonDecode(responseApi);
 
-      //REMOVE LATER FROM HERE, USED FOR TESTING TOKEN STORING AND RETRIEVAL. 
-      setState(() {
-        sharedPreferences.setString('JWT', 'ExampleToken');
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => const HomeScreen()), (route) => false);
-      });
+        print(jsonData);
+      }
+      break;
+
+      case 400 : {
+        print('Response status: ${response.statusCode}');
+        _inputError = true;
+         String responseApi = response.body.toString().replaceAll("\n","");
+        jsonData = jsonDecode(responseApi);
+
+        print(jsonData);
+      }
+      break;
+
+      case 401 : {
+        print('Response status: ${response.statusCode}');
+        _inputError = true;
+         String responseApi = response.body.toString().replaceAll("\n","");
+        jsonData = jsonDecode(responseApi);
+
+        print(jsonData);
+      }
+      break;
+
+      default : {
+        print('Response status: ${response.statusCode}');
+        _inputError = true;
+         String responseApi = response.body.toString().replaceAll("\n","");
+        jsonData = jsonDecode(responseApi);
+
+        print(jsonData);
+      }
+      break;
     }
   }
 
   void forgor() {
-  print("Forgot password pressed");
+    print("Forgot password pressed");
   }
 
   @override
@@ -148,7 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           setState(() {
                             _isLoading = true;
                           });
-                          signIn(_emailController.text, _pwController.text);
+                          logIn(_emailController.text, _pwController.text);
                         },
                         child: const Text(
                           'Log In',
@@ -160,7 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 200),
+                    const SizedBox(height: 50),
                     const Text(
                         'Don\'t have an account?',
                         style: TextStyle(
@@ -186,6 +230,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontSize: 16
                         )
                       )
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Test()),
+                        );
+                      },
+                      child: const Text(
+                        'TEST HTTP',
+                      ),
                     ),
                   ],
                 ),
