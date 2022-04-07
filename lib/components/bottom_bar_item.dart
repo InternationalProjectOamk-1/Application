@@ -18,8 +18,8 @@ class BottomBarItems extends StatelessWidget {
       onTap: press,
       child: Icon(
         icon,
-        color: Colors.white,
         size: 60,
+        color: Colors.white,
       ),
     );
   }
