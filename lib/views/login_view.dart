@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:mapplication/home_screen.dart';
+import 'package:mapplication/widgets/input_error_notice.dart';
 import 'package:mapplication/widgets/login_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,85 +33,55 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isLoading = false;
   bool _inputError = false;
+  int _statusCode = 0;
+  var jsonData = null;
 
 
   //FIGURE OUT WHY THE LOGIN METHOD IS GET?
+  void login( email, password) async {
 
-  logIn(String email, String password) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-    Map <String,String> data = {
+    Map<String, String> data = {
       'email': email,
       'password': password
     };
 
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var jsonData = null;
-    var url = Uri.http(constants.BASE_PATH, constants.LOGIN, data);
-    var response = await http.get(
-      url,
-      headers: {"Accept":"application/json"}
-    );
-    
-    switch (response.statusCode) {
+    try{
+      
+    http.Response response = await http.get(
+        Uri.http(constants.BASE_PATH, constants.LOGIN, data),
+        headers: {"Accept":"application/json"}
+      );
 
-      case 200 : {
-        print('Response status: ${response.statusCode}');
-        _inputError = false;
+      if(response.statusCode == 200){
+        print(response.statusCode);
         String responseApi = response.body.toString().replaceAll("\n","");
-        jsonData = jsonDecode(responseApi);     // jsonData = JWT in case of return statusCode 200.
-        
-        print(jsonData);
-        
+        jsonData = responseApi; 
+
         setState(() {
           sharedPreferences.setString('token', jsonData);
           Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => const SignInScreen()), (route) => false);
         });
+
+      }else {
+        print(response.statusCode);
+        _inputError = true;
+        _statusCode = response.statusCode;
+         String responseApi = response.body.toString().replaceAll("\n","");
+
+        if(responseApi.isNotEmpty){
+          jsonData = responseApi;
+        } else {
+          print('No content to show');
+        }
         
       }
-      break;
-
-      case 202 : {
-        print('Response status: ${response.statusCode}');
-        _inputError = true;
-         String responseApi = response.body.toString().replaceAll("\n","");
-        jsonData = jsonDecode(responseApi);
-
-        print(jsonData);
-      }
-      break;
-
-      case 400 : {
-        print('Response status: ${response.statusCode}');
-        _inputError = true;
-         String responseApi = response.body.toString().replaceAll("\n","");
-        jsonData = jsonDecode(responseApi);
-
-        print(jsonData);
-      }
-      break;
-
-      case 401 : {
-        print('Response status: ${response.statusCode}');
-        _inputError = true;
-         String responseApi = response.body.toString().replaceAll("\n","");
-        jsonData = jsonDecode(responseApi);
-
-        print(jsonData);
-      }
-      break;
-
-      default : {
-        print('Response status: ${response.statusCode}');
-        _inputError = true;
-         String responseApi = response.body.toString().replaceAll("\n","");
-        jsonData = jsonDecode(responseApi);
-
-        print(jsonData);
-      }
-      break;
+    }catch(e){
+      print(e.toString());
     }
   }
-
+  
   void forgor() {
     print("Forgot password pressed");
   }
@@ -166,6 +137,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       iconType: Icons.lock
                     ),
                     const SizedBox(height: 8),
+                     _inputError
+                    ?
+                    InputError(
+                      typeOfError: jsonData.toString(),
+                      errorType: _statusCode,
+                    )
+                    :
+                    const SizedBox(height: 0),
+                    
                     TextButton(
                       onPressed: forgor,
                           //TO-DO: Create proper forget password page
@@ -192,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           setState(() {
                             _isLoading = true;
                           });
-                          logIn(_emailController.text, _pwController.text);
+                          login(_emailController.text, _pwController.text);
                         },
                         child: const Text(
                           'Log In',

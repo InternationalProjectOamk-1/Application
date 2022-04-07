@@ -33,6 +33,8 @@ class _SignInScreenState extends State<SignInScreen> {
 
   bool _signUpPressed = false;
   bool _inputError = false;
+  int _statusCode = 2;
+  var jsonData = null;
 
   void forgor() {
   print("Forgot password pressed");
@@ -50,13 +52,12 @@ class _SignInScreenState extends State<SignInScreen> {
     http.Response response = await http.post(
         
         Uri.http(constants.BASE_PATH, constants.REGISTER),
+        body: jsonEncode(data),
         headers: <String, String>{
-        'Content-Type': 'application/json',
-        },
-        body: jsonEncode(data)
+        'Content-Type': 'application/json; charset=utf-8',
+        }
+        
       );
-
-      var jsonData = null;
 
       if(response.statusCode == 200){
         
@@ -67,13 +68,12 @@ class _SignInScreenState extends State<SignInScreen> {
 
       }else {
 
-        print(response.statusCode);
+        print('Returned with HTTP status: ${response.statusCode}');
         String responseApi = response.body.toString().replaceAll("\n","");
-
         if(responseApi.isNotEmpty){
           print(responseApi);
         } else {
-          print('No content to show');
+          print('body returned empty');
         }
         
       }
@@ -147,10 +147,13 @@ class _SignInScreenState extends State<SignInScreen> {
                       iconType: Icons.lock,
                     ),
                     
-                    _inputError
+                   const SizedBox(height: 8),
+                     _inputError
                     ?
-                    const InputError(
-                      typeOfError: "Test")
+                    InputError(
+                      typeOfError: jsonData,
+                      errorType: _statusCode,
+                    )
                     :
                     const SizedBox(height: 0),
 

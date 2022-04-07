@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../consts/user_service_consts.dart ' as constants;
 
@@ -18,8 +19,10 @@ class _TestState extends State<Test> {
   String email = 'example.email@example.com';
   String password = 'testpassword';
 
-
+  
   TestHTTP(String name, String email, String password) async {
+
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
     Map<String,String> data = {
       'name': name,
@@ -56,6 +59,14 @@ class _TestState extends State<Test> {
 
       default : {
         print('Response status: ${response.statusCode}');
+        var token = sharedPreferences.getString('token');
+
+        if(token == null){
+          print('empty');
+        } else {
+          print(token);
+        };
+
       }
       break;
     }
