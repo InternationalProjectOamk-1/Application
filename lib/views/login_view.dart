@@ -55,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       if(response.statusCode == 200){
-        print(response.statusCode);
+        print('Returned with HTTP status: ${response.statusCode}');
         String responseApi = response.body.toString().replaceAll("\n","");
         jsonData = responseApi; 
 
@@ -65,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
         });
 
       }else {
-        print(response.statusCode);
+        print('Returned with HTTP status: ${response.statusCode}');
         _inputError = true;
         _statusCode = response.statusCode;
          String responseApi = response.body.toString().replaceAll("\n","");

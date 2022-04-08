@@ -40,7 +40,7 @@ class _SignInScreenState extends State<SignInScreen> {
   print("Forgot password pressed");
   }
 
-  void register(String username, email, password) async {
+  void register(String username, String email, String password) async {
     Map<String, String> data = {
       'username': username,
       'email': email,
@@ -52,10 +52,11 @@ class _SignInScreenState extends State<SignInScreen> {
     http.Response response = await http.post(
         
         Uri.http(constants.BASE_PATH, constants.REGISTER),
-        body: jsonEncode(data),
+        
         headers: <String, String>{
-        'Content-Type': 'application/json; charset=utf-8',
-        }
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: jsonEncode(data)
         
       );
 
@@ -67,7 +68,7 @@ class _SignInScreenState extends State<SignInScreen> {
         print('Login successfully');
 
       }else {
-
+        print(jsonEncode(data).replaceAll(",", ",\n"));
         print('Returned with HTTP status: ${response.statusCode}');
         String responseApi = response.body.toString().replaceAll("\n","");
         if(responseApi.isNotEmpty){
