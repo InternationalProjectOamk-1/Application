@@ -19,7 +19,7 @@ class BottomBarItems extends StatelessWidget {
       child: Icon(
         icon,
         color: Colors.white,
-        size: 40,
+        size: 60,
       ),
     );
   }
