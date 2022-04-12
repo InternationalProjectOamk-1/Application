@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mapplication/data/events.dart';
+import 'package:mapplication/views/profile_screen.dart';
 import 'package:mapplication/widgets/bottom_bar.dart';
 import 'package:mapplication/widgets/create_event.dart';
 import 'package:mapplication/widgets/event_builder.dart';
+import 'package:mapplication/widgets/profile_button.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -23,6 +25,15 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           const EventButton(),
+          ProfileButton(
+            icon: Icons.person,
+            press: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ProfileScreen(),
+              ),
+            ),
+          ),
         ],
       ),
     );
