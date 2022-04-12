@@ -7,6 +7,8 @@ class EventButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
     return SafeArea(
       child: Align(
         alignment: Alignment.bottomCenter,
@@ -54,14 +56,14 @@ class EventButton extends StatelessWidget {
             ),
           ),
           child: Container(
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.symmetric(horizontal: size.width * .2),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(100),
             ),
             child: Icon(
               Icons.event,
-              size: 60,
+              size: 35,
               color: Colors.orange[100],
             ),
           ),
