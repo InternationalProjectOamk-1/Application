@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mapplication/views/login_view.dart';
+import 'package:mapplication/views/map_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginScreen(),
+      home: const MapScreen(),
     );
   }
 }
