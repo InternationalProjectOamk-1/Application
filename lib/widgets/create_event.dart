@@ -13,37 +13,42 @@ class EventButton extends StatelessWidget {
         child: GestureDetector(
           onTap: () => showDialog(
             context: context,
-            builder: (_) => AlertDialog(
-              content: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const <Widget>[
-                  CreateEventTextField(
-                    name: 'Event title',
-                    icon: Icons.search,
-                  ),
-                  CreateEventTextField(
-                    name: 'Place',
-                    icon: Icons.map,
-                  ),
-                  CreateEventTextField(
-                    name: 'Interests',
-                    icon: Icons.tag,
-                  ),
-                  CreateEventTextField(
-                    name: 'Number of people',
-                    icon: Icons.people,
-                  ),
-                  CreateEventTextField(
-                    name: 'Start of event',
-                    icon: Icons.start,
-                  ),
-                ],
-              ),
+            builder: (_) => SimpleDialog(
               backgroundColor: Colors.orange[100],
-              actions: [
-                TextButton(
-                  onPressed: () {},
-                  child: const Text("Create event"),
+              contentPadding: const EdgeInsets.all(10),
+              children: <Widget>[
+                Column(
+                  children: const <Widget>[
+                    CreateEventTextField(
+                      name: 'Event title',
+                      icon: Icons.search,
+                    ),
+                    SizedBox(height: 10),
+                    CreateEventTextField(
+                      name: 'Place',
+                      icon: Icons.map,
+                    ),
+                    SizedBox(height: 10),
+                    CreateEventTextField(
+                      name: 'Interests',
+                      icon: Icons.tag,
+                    ),
+                    SizedBox(height: 10),
+                    CreateEventTextField(
+                      name: 'Number of people',
+                      icon: Icons.people,
+                    ),
+                    SizedBox(height: 10),
+                    CreateEventTextField(
+                      name: 'Start of event',
+                      icon: Icons.start,
+                    ),
+                    SizedBox(height: 10),
+                    TextButton(
+                      onPressed: null,
+                      child: Text("Create event"),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -66,7 +71,7 @@ class EventButton extends StatelessWidget {
   }
 }
 
-class CreateEventTextField extends StatelessWidget {
+class CreateEventTextField extends StatefulWidget {
   final String name;
   final IconData icon;
 
@@ -77,16 +82,37 @@ class CreateEventTextField extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<CreateEventTextField> createState() => _CreateEventTextFieldState();
+}
+
+class _CreateEventTextFieldState extends State<CreateEventTextField> {
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.orange[50],
         borderRadius: BorderRadius.circular(100),
       ),
       child: TextField(
+        controller: _controller,
+        onSubmitted: (String value) => print(value),
         decoration: InputDecoration(
-          hintText: name,
-          prefixIcon: Icon(icon),
+          hintText: widget.name,
+          prefixIcon: Icon(widget.icon),
           border: InputBorder.none,
         ),
       ),

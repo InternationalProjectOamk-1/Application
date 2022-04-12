@@ -3,10 +3,8 @@ import 'package:mapplication/components/bottom_bar_item.dart';
 import 'package:mapplication/styles/home_style.dart';
 
 class BottomBar extends StatelessWidget {
-  final int screen;
   const BottomBar({
     Key? key,
-    required this.screen,
   }) : super(key: key);
 
   @override
