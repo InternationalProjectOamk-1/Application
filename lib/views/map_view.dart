@@ -1,4 +1,6 @@
 //import 'package:clippy_flutter/arc.dart';
+import 'dart:collection';
+import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -10,8 +12,48 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  List<Marker> events = [];
-  final userPos = const LatLng(65.0135579, 25.4809041);
+  final Set<Marker> _events = HashSet<Marker>();
+  final placeHolderPos = const LatLng(65.0135579, 25.4809041);
+  late GoogleMapController _mapController;
+
+  Position? currentPosition;
+  var geoLocator = Geolocator();
+  locatePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+
+    // Position position = await Geolocator.getCurrentPosition(
+    //     desiredAccuracy: LocationAccuracy.high);
+    // currentPosition = position;
+
+    //LatLng latLngPosition = LatLng(position.latitude, position.longitude);
+
+    // CameraPosition cameraPosition =
+    //     CameraPosition(target: latLngPosition, zoom: 11);
+    // _mapController
+    //     .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +61,18 @@ class _MapScreenState extends State<MapScreen> {
       body: Stack(
         children: <Widget>[
           GoogleMap(
+            tiltGesturesEnabled: false,
             zoomControlsEnabled: false,
             rotateGesturesEnabled: true,
+            myLocationButtonEnabled: true,
+            myLocationEnabled: true,
             initialCameraPosition: CameraPosition(
-              target: userPos,
+              target: placeHolderPos,
               zoom: 12,
             ),
-            markers: Set.from(events),
+            markers: _events,
             onLongPress: _handleLongPress,
+            onMapCreated: _onMapCreated,
           ),
           Container(
             alignment: Alignment.bottomLeft,
@@ -40,8 +86,8 @@ class _MapScreenState extends State<MapScreen> {
 
   _handleLongPress(LatLng pos) {
     setState(() {
-      events = [];
-      events.add(Marker(
+      //_events = [];
+      _events.add(Marker(
         markerId: MarkerId(pos.toString()),
         position: pos,
         draggable: true,
@@ -51,6 +97,26 @@ class _MapScreenState extends State<MapScreen> {
           snippet: 'Event taking place',
         ),
       ));
+    });
+  }
+
+  _onMapCreated(GoogleMapController controller) {
+    _mapController = controller;
+
+    locatePosition();
+
+    setState(() {
+      _events.add(
+        Marker(
+          markerId: const MarkerId('0'),
+          position: const LatLng(65.0135579, 25.4809041),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose),
+          infoWindow: const InfoWindow(
+            title: "Event in Oulu",
+            snippet: "This event is currently taking place",
+          ),
+        ),
+      );
     });
   }
 }
