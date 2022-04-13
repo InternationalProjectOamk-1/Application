@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mapplication/views/chat_view.dart';
 import 'package:mapplication/views/home_screen.dart';
-import 'package:mapplication/views/login_view.dart';
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 
 void main() {
@@ -13,12 +12,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: HomeScreen(),
+    return const MaterialApp(
+      title: 'Eeventify',
+      home: Scaffold(
+        body: DoubleBackToCloseApp(
+          snackBar: SnackBar(
+            content: Text('Tap again to Exit')
+          ),
+          child: HomeScreen()
+        ),
+      )
     );
   }
 }
