@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../styles/map_style.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -102,6 +103,8 @@ class _MapScreenState extends State<MapScreen> {
 
   _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
+    controller.setMapStyle(Utils.mapStyle);
+    // mapID: 9231b9dc83bdde06
 
     locatePosition();
 
@@ -110,7 +113,8 @@ class _MapScreenState extends State<MapScreen> {
         Marker(
           markerId: const MarkerId('0'),
           position: const LatLng(65.0135579, 25.4809041),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose),
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
           infoWindow: const InfoWindow(
             title: "Event in Oulu",
             snippet: "This event is currently taking place",
