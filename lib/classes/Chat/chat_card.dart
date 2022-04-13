@@ -72,13 +72,30 @@ class ChatCard extends StatelessWidget {
             ),
             Opacity(
               opacity: 0.5,
-              child: Text(          //Message sent time
-                chat.time
-              )
+              child: isUserActive(chat.isActive, chat.time),      //Last online
             ),
           ],
         ),
       )
     );
   }
+}
+
+Text isUserActive(bool isActive, String time) {
+  return
+  isActive 
+  ? 
+  const Text(
+    'Active',
+    style: TextStyle(
+      fontSize: 12
+    )
+  )
+  :
+  Text(
+    time,
+    style: const TextStyle(
+      fontSize: 12
+    )
+  );
 }
