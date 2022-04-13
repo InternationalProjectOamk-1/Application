@@ -24,7 +24,7 @@ class ProfileButton extends StatelessWidget {
               decoration: myProfileCustom,
               child: Icon(
                 icon,
-                color: Colors.orange[900],
+                color: Colors.orange,
               ),
             ),
           ),
