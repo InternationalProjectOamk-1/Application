@@ -42,7 +42,7 @@ class ChatCard extends StatelessWidget {
                     ),
                   )
                 )
-              ]
+              ],
             ),
             Expanded(
               child: Padding(
@@ -57,7 +57,7 @@ class ChatCard extends StatelessWidget {
                         fontSize: 16,
                       ),
                     ),
-                    const SizedBox(height: 8,),
+                    const SizedBox(height: 8),
                     Opacity(
                       opacity: 0.5,
                       child: Text(          //Last message
