@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mapplication/components/bottom_bar_item.dart';
 import 'package:mapplication/styles/home_style.dart';
 import 'package:mapplication/views/chat_view.dart';
+import 'package:mapplication/views/home_screen.dart';
 
 class BottomBar extends StatelessWidget {
   const BottomBar({
@@ -22,17 +23,24 @@ class BottomBar extends StatelessWidget {
               name: "chat",
               icon: Icons.chat,
               press: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ChatScreen())
-                )
+               Navigator.pushAndRemoveUntil(
+                context, 
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const ChatScreen(),
+                ),
+                (route) => false)
               },
             ),
             BottomBarItems(
               name: "home",
               icon: Icons.home,
               press: () => {
-                print("home"),
+                Navigator.pushReplacement<void, void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const HomeScreen(),
+                  ),
+                ),
               },
             ),
             BottomBarItems(
