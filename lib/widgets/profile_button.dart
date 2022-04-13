@@ -22,7 +22,10 @@ class ProfileButton extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(10.0),
               decoration: myProfileCustom,
-              child: Icon(icon),
+              child: Icon(
+                icon,
+                color: Colors.orange[900],
+              ),
             ),
           ),
         ),
