@@ -10,7 +10,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     //var size = MediaQuery.of(context).size;
     return Scaffold(
-      bottomNavigationBar: const BottomBar(),
       body: Stack(
         children: <Widget>[
           SafeArea(
@@ -20,9 +19,10 @@ class HomeScreen extends StatelessWidget {
                 return eventBuilder(context, index);
               },
             ),
-          )
+          ),
         ],
       ),
+      bottomNavigationBar: const BottomBar(),
     );
   }
 }
