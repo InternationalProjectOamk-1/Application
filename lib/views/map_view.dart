@@ -104,7 +104,6 @@ class _MapScreenState extends State<MapScreen> {
   _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
     controller.setMapStyle(Utils.mapStyle);
-    // mapID: 9231b9dc83bdde06
 
     locatePosition();
 
