@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mapplication/data/events.dart';
 import 'package:mapplication/views/profile_screen.dart';
-import 'package:mapplication/widgets/bottom_bar.dart';
 import 'package:mapplication/widgets/create_event.dart';
 import 'package:mapplication/widgets/event_builder.dart';
 import 'package:mapplication/widgets/profile_button.dart';
@@ -13,7 +12,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     //var size = MediaQuery.of(context).size;
     return Scaffold(
-      bottomNavigationBar: const BottomBar(),
       body: Stack(
         children: <Widget>[
           SafeArea(

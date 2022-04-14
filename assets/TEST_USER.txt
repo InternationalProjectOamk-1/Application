@@ -1,0 +1,15 @@
+testuser10
+testuser10@test.com
+testpassword
+
+{
+"username":"testaccount1",
+"email":"testemail11@test.com",
+"password":"testpassword"
+}
+
+{
+  "username": "string",
+  "email": "string",
+  "password": "string"
+}
