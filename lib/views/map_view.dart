@@ -1,5 +1,8 @@
 //import 'package:clippy_flutter/arc.dart';
 import 'dart:collection';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/rendering.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -58,33 +61,36 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          GoogleMap(
-            tiltGesturesEnabled: false,
-            zoomControlsEnabled: false,
-            rotateGesturesEnabled: true,
-            myLocationButtonEnabled: true,
-            myLocationEnabled: true,
-            initialCameraPosition: CameraPosition(
-              target: placeHolderPos,
-              zoom: 12,
+    return Stack(
+      children: <Widget>[
+        GoogleMap(
+          gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+            Factory<OneSequenceGestureRecognizer>(
+              () => EagerGestureRecognizer(),
             ),
-            markers: _events,
-            onLongPress: _handleLongPress,
-            onMapCreated: _onMapCreated,
+          },
+          tiltGesturesEnabled: false,
+          zoomControlsEnabled: false,
+          rotateGesturesEnabled: true,
+          myLocationButtonEnabled: true,
+          myLocationEnabled: true,
+          initialCameraPosition: CameraPosition(
+            target: placeHolderPos,
+            zoom: 12,
           ),
-          Container(
-            alignment: Alignment.bottomLeft,
-            padding: const EdgeInsets.fromLTRB(70, 0, 0, 8),
-            child: const Text(
-              'ActMap v. 0.2',
-              style: const TextStyle(),
-            ),
-          )
-        ],
-      ),
+          markers: _events,
+          onLongPress: _handleLongPress,
+          onMapCreated: _onMapCreated,
+        ),
+        Container(
+          alignment: Alignment.bottomLeft,
+          padding: const EdgeInsets.fromLTRB(70, 0, 0, 8),
+          child: const Text(
+            'ActMap v. 0.2',
+            style: const TextStyle(),
+          ),
+        )
+      ],
     );
   }
 

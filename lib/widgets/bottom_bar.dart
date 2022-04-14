@@ -3,8 +3,10 @@ import 'package:mapplication/components/bottom_bar_item.dart';
 import 'package:mapplication/styles/home_style.dart';
 
 class BottomBar extends StatelessWidget {
+  final PageController controller;
   const BottomBar({
     Key? key,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -12,7 +14,6 @@ class BottomBar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Container(
-        height: 80,
         decoration: myOrangeCustom,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -21,21 +22,42 @@ class BottomBar extends StatelessWidget {
               name: "chat",
               icon: Icons.chat,
               press: () => {
-                print("chat"),
+                if (controller.hasClients)
+                  {
+                    controller.animateToPage(
+                      0,
+                      duration: const Duration(milliseconds: 100),
+                      curve: Curves.easeInOut,
+                    )
+                  }
               },
             ),
             BottomBarItems(
               name: "home",
               icon: Icons.home,
               press: () => {
-                print("home"),
+                if (controller.hasClients)
+                  {
+                    controller.animateToPage(
+                      1,
+                      duration: const Duration(milliseconds: 100),
+                      curve: Curves.easeInOut,
+                    )
+                  }
               },
             ),
             BottomBarItems(
               name: "map",
               icon: Icons.map,
               press: () => {
-                print("map"),
+                if (controller.hasClients)
+                  {
+                    controller.animateToPage(
+                      2,
+                      duration: const Duration(milliseconds: 100),
+                      curve: Curves.easeInOut,
+                    )
+                  }
               },
             ),
           ],
