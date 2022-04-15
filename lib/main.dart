@@ -1,3 +1,4 @@
+import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
 import 'package:mapplication/views/home_screen.dart';
 import 'package:mapplication/views/login_view.dart';
@@ -24,15 +25,17 @@ class MyApp extends StatelessWidget {
         bottomNavigationBar: BottomBar(
           controller: controller,
         ),
-        body: PageView(
-          onPageChanged: (controller) => print(controller),
-          controller: controller,
-          scrollDirection: Axis.horizontal,
-          children: const <Widget>[
-            LoginScreen(),
-            HomeScreen(),
-            MapScreen(),
-          ],
+        body: DoubleBack(
+          child: PageView(
+            onPageChanged: (controller) => print(controller),
+            controller: controller,
+            scrollDirection: Axis.horizontal,
+            children: const <Widget>[
+              LoginScreen(),
+              HomeScreen(),
+              MapScreen(),
+            ],
+          ),
         ),
       ),
     );

@@ -11,29 +11,27 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //var size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          SafeArea(
-            child: ListView.builder(
-              itemCount: event_data.length,
-              itemBuilder: (context, index) {
-                return eventBuilder(context, index);
-              },
+    return Stack(
+      children: <Widget>[
+        SafeArea(
+          child: ListView.builder(
+            itemCount: event_data.length,
+            itemBuilder: (context, index) {
+              return eventBuilder(context, index);
+            },
+          ),
+        ),
+        const EventButton(),
+        ProfileButton(
+          icon: Icons.person,
+          press: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ProfileScreen(),
             ),
           ),
-          const EventButton(),
-          ProfileButton(
-            icon: Icons.person,
-            press: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const ProfileScreen(),
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
