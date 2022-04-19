@@ -33,7 +33,7 @@ class ChatScreenBody extends StatelessWidget {
                         const Expanded(
                           child: TextField(
                             decoration: InputDecoration(
-                              hintText: 'Type here...',
+                              hintText: 'Type here....',
                               border: InputBorder.none,
                             ),
                           ),
