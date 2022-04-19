@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:mapplication/views/home_screen.dart';
 import 'package:mapplication/widgets/input_error_notice.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -51,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
           sharedPreferences.setString('token', jsonData);
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
-                  builder: (BuildContext context) => const SignInScreen()),
+                  builder: (BuildContext context) => const HomeScreen()),
               (route) => false);
         });
       } else {
