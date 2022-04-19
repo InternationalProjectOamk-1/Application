@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mapplication/consts/styling_consts.dart';
 import 'package:mapplication/widgets/Chat/chat_body.dart';
-import 'package:mapplication/widgets/bottom_bar.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({ Key? key }) : super(key: key);
@@ -19,7 +18,6 @@ class ChatScreen extends StatelessWidget {
           color: Colors.white
         ),
       ),
-      bottomNavigationBar: const BottomBar(),
     );
   }
 

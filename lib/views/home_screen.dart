@@ -21,7 +21,6 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: const BottomBar(),
     );
   }
 }
