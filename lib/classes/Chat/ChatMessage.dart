@@ -1,69 +1,58 @@
 import 'package:flutter/material.dart';
-import 'package:mapplication/classes/Chat/Chat.dart';
-import 'package:mapplication/widgets/Chat/chat_messaging_body.dart';
 
-import '../../consts/styling_consts.dart';
+enum ChatMessageType { text, image }
+enum MessageStatus { not_sent, not_viewed, viewed }
 
-class MessageScreen extends StatelessWidget {
-  const MessageScreen( {
-      Key? key, 
-      required this.chat,
-      required this.index
-    }) : super(key: key);
+class ChatMessage {
+  final String text;
+  final ChatMessageType messageType;
+  final MessageStatus messageStatus;
+  final bool isSender;
 
-  final Chat chat;
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            CircleAvatar(
-              radius: 18,
-              backgroundImage: AssetImage(chat.image),
-            ),
-            const SizedBox(width: appDefaultPadding * 1.25),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  chat.name,
-                  style: const TextStyle(
-                    fontSize: 16
-                  ),
-                ),
-                const SizedBox(height: appDefaultPadding / 4),
-                Opacity(
-                  opacity: 0.75,
-                  child: isUserActive(chat.isActive, chat.time)
-                )
-              ],
-            )
-          ]
-        )
-      ),
-      body: const ChatScreenBody(),
-    );
-  }
+  ChatMessage({
+    required this.text,
+    required this.messageType,
+    required this.messageStatus,
+    required this.isSender,
+  });
 }
 
-Text isUserActive(bool isActive, String time) {
-  return
-  isActive 
-  ? 
-  const Text(
-    'Active',
-    style: TextStyle(
-      fontSize: 12
-    )
-  )
-  :
-  Text(
-    'Last active $time',
-    style: const TextStyle(
-      fontSize: 12
-    )
-  );
-}
+List demoChatMessages = [
+  ChatMessage(
+    text: "Hello. this is and example nr.1",
+    messageType: ChatMessageType.text,
+    messageStatus: MessageStatus.viewed,
+    isSender: true,
+  ),
+  ChatMessage(
+    text: "Hello. this is and example nr.2",
+    messageType: ChatMessageType.text,
+    messageStatus: MessageStatus.viewed,
+    isSender: true,
+  ),
+  ChatMessage(
+    text: "Hello. this is and example nr.3",
+    messageType: ChatMessageType.text,
+    messageStatus: MessageStatus.viewed,
+    isSender: false,
+  ),
+  ChatMessage(
+    text: "Hello. this is and example nr.4",
+    messageType: ChatMessageType.text,
+    messageStatus: MessageStatus.not_sent,
+    isSender: false,
+  ),
+  ChatMessage(
+    text: "Hello. this is and example nr.5",
+    messageType: ChatMessageType.text,
+    messageStatus: MessageStatus.not_viewed,
+    isSender: true,
+  ),
+  ChatMessage(
+    text: "Hello. this is and example nr.6",
+    messageType: ChatMessageType.text,
+    messageStatus: MessageStatus.not_sent,
+    isSender: true,
+  ),
+     
+];
