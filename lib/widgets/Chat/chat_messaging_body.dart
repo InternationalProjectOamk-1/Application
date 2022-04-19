@@ -1,58 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:mapplication/classes/Chat/Chat.dart';
+import 'package:mapplication/classes/Chat/ChatMessage.dart';
+import 'package:mapplication/components/Chat/chat_input_field.dart';
+import 'package:mapplication/components/Chat/message.dart';
+import 'package:mapplication/components/Chat/text_chat.dart';
 import 'package:mapplication/consts/styling_consts.dart';
 
 class ChatScreenBody extends StatelessWidget {
-  const ChatScreenBody({ Key? key }) : super(key: key);
+  const ChatScreenBody({
+      Key? key, required this.chat
+  }) : super(key: key);
+
+  final Chat chat;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Spacer(),
-        Container(
-          height: 50,
-          decoration:  BoxDecoration(
-            color: Colors.white.withOpacity(0.6),
-          ),
-          child: SafeArea(
-            child: Row(
-              children: [
-                const SizedBox(width: appDefaultPadding * 2),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: appDefaultPadding 
-                    ),
-                    decoration: BoxDecoration(
-                      color: appDefaultColor.withOpacity(0.10), 
-                      borderRadius: BorderRadius.circular(10)
-                    ),
-                    child: Row(
-                      children: [
-                        const SizedBox(width: appDefaultPadding / 2),
-                        const Expanded(
-                          child: TextField(
-                            decoration: InputDecoration(
-                              hintText: 'Type here....',
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: (){},
-                          icon: const Icon(Icons.send_rounded)
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(width: appDefaultPadding * 2),
-              ],
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: appDefaultPadding),
+            child: ListView.builder(
+              itemCount: demoChatMessages.length,
+              itemBuilder: (context, index) => Message(message: demoChatMessages[index], chat: chat,),
             ),
-          ),
-        )
+          ), 
+        ),
+        const ChatInputField()
       ],
       
     );
   }
 }
+
