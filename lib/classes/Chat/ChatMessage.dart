@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 enum ChatMessageType { text, image }
 enum MessageStatus { not_sent, not_viewed, viewed }

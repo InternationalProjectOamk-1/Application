@@ -3,7 +3,6 @@ import 'package:mapplication/classes/Chat/Chat.dart';
 import 'package:mapplication/classes/Chat/ChatMessage.dart';
 import 'package:mapplication/components/Chat/chat_input_field.dart';
 import 'package:mapplication/components/Chat/message.dart';
-import 'package:mapplication/components/Chat/text_chat.dart';
 import 'package:mapplication/consts/styling_consts.dart';
 
 class ChatScreenBody extends StatelessWidget {
