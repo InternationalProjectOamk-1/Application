@@ -1,6 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mapplication/views/home_screen.dart';
-import 'package:double_back_to_close_app/double_back_to_close_app.dart';
+import 'package:mapplication/views/login_view.dart';
+import 'package:mapplication/views/map_view.dart';
+import 'package:mapplication/widgets/bottom_bar.dart';
 
 
 void main() {
@@ -12,16 +15,29 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Eeventify',
+
+    final PageController controller = PageController(initialPage: 1);
+    return MaterialApp(
+      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
       home: Scaffold(
-        body: DoubleBackToCloseApp(
-          snackBar: SnackBar(
-            content: Text('Tap again to Exit')
-          ),
-          child: HomeScreen()
+        bottomNavigationBar: BottomBar(
+          controller: controller,
         ),
-      )
+        body: PageView(
+          onPageChanged: (controller) => print(controller),
+          controller: controller,
+          scrollDirection: Axis.horizontal,
+          children: const <Widget>[
+            LoginScreen(),
+            HomeScreen(),
+            MapScreen(),
+          ],
+        ),
+      ),
     );
   }
 }

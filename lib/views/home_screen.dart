@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mapplication/data/events.dart';
-import 'package:mapplication/widgets/bottom_bar.dart';
 import 'package:mapplication/widgets/event_builder.dart';
 
 class HomeScreen extends StatelessWidget {

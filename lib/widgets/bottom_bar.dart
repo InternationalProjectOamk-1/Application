@@ -5,8 +5,10 @@ import 'package:mapplication/views/chat_view.dart';
 import 'package:mapplication/views/home_screen.dart';
 
 class BottomBar extends StatelessWidget {
+  final PageController controller;
   const BottomBar({
     Key? key,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -14,7 +16,6 @@ class BottomBar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Container(
-        height: 80,
         decoration: myOrangeCustom,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -23,31 +24,42 @@ class BottomBar extends StatelessWidget {
               name: "chat",
               icon: Icons.chat,
               press: () => {
-               Navigator.pushAndRemoveUntil(
-                context, 
-                MaterialPageRoute(
-                  builder: (BuildContext context) => const ChatScreen(),
-                ),
-                (route) => false)
+                if (controller.hasClients)
+                  {
+                    controller.animateToPage(
+                      0,
+                      duration: const Duration(milliseconds: 100),
+                      curve: Curves.easeInOut,
+                    )
+                  }
               },
             ),
             BottomBarItems(
               name: "home",
               icon: Icons.home,
               press: () => {
-                Navigator.pushReplacement<void, void>(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (BuildContext context) => const HomeScreen(),
-                  ),
-                ),
+                if (controller.hasClients)
+                  {
+                    controller.animateToPage(
+                      1,
+                      duration: const Duration(milliseconds: 100),
+                      curve: Curves.easeInOut,
+                    )
+                  }
               },
             ),
             BottomBarItems(
               name: "map",
               icon: Icons.map,
               press: () => {
-                print("map"),
+                if (controller.hasClients)
+                  {
+                    controller.animateToPage(
+                      2,
+                      duration: const Duration(milliseconds: 100),
+                      curve: Curves.easeInOut,
+                    )
+                  }
               },
             ),
           ],
