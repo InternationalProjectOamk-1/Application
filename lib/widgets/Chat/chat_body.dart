@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mapplication/classes/Chat/Chat.dart';
-import 'package:mapplication/classes/Chat/ChatMessage.dart';
+import 'package:mapplication/classes/Chat/ChatMessageScreen.dart';
 import 'package:mapplication/classes/Chat/chat_card.dart';
 import 'package:mapplication/components/Chat/filled_outline_button.dart';
 import 'package:mapplication/consts/styling_consts.dart';
