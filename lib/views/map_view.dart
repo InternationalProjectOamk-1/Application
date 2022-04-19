@@ -87,7 +87,7 @@ class _MapScreenState extends State<MapScreen> {
           padding: const EdgeInsets.fromLTRB(70, 0, 0, 8),
           child: const Text(
             'ActMap v. 0.2',
-            style: const TextStyle(),
+            style: TextStyle(color: Colors.white),
           ),
         )
       ],
