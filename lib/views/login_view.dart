@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:mapplication/views/home_screen.dart';
 import 'package:mapplication/widgets/input_error_notice.dart';
-import 'package:mapplication/widgets/login_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:mapplication/views/signup_view.dart';

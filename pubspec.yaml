@@ -41,6 +41,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   custom_info_window: ^1.0.1
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -66,7 +67,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/
+    - assets/images/
 
   fonts:
     - family: Oceanic

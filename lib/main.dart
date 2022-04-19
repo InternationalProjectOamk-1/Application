@@ -5,6 +5,7 @@ import 'package:mapplication/views/login_view.dart';
 import 'package:mapplication/views/map_view.dart';
 import 'package:mapplication/widgets/bottom_bar.dart';
 
+
 void main() {
   runApp(const MyApp());
 }
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final PageController controller = PageController(initialPage: 1);
     return MaterialApp(
       title: 'Flutter Demo',

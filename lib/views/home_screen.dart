@@ -18,9 +18,10 @@ class HomeScreen extends StatelessWidget {
                 return eventBuilder(context, index);
               },
             ),
-          )
+          ),
         ],
       ),
+      bottomNavigationBar: const BottomBar(),
     );
   }
 }
