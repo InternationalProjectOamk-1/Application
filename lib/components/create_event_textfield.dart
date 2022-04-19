@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mapplication/styles/home_style.dart';
 
 class CreateEventTextField extends StatefulWidget {
   final String name;
@@ -32,10 +33,7 @@ class _CreateEventTextFieldState extends State<CreateEventTextField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.orange[50],
-        borderRadius: BorderRadius.circular(100),
-      ),
+      decoration: myCreateEventCustom,
       child: TextField(
         controller: _controller,
         onSubmitted: (String value) => print(value),
