@@ -64,8 +64,7 @@ class _SignInScreenState extends State<SignInScreen> {
         
         String responseApi = response.body.toString().replaceAll("\n","");
         jsonData = jsonDecode(responseApi); 
-        print(jsonData['token']);
-        print('Login successfully');
+        print('SignUp successfully');
 
       }else {
         print(jsonEncode(data).replaceAll(",", ",\n"));

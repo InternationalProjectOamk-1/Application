@@ -1,10 +1,8 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:mapplication/views/home_screen.dart';
 import 'package:mapplication/widgets/input_error_notice.dart';
-import 'package:mapplication/widgets/login_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:mapplication/views/signup_view.dart';
@@ -29,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _pwController = TextEditingController();
 
-  bool _isLoading = false;
+  
   bool _inputError = false;
   int _statusCode = 0;
   var jsonData = null;
@@ -54,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
           sharedPreferences.setString('token', jsonData);
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
-                  builder: (BuildContext context) => const SignInScreen()),
+                  builder: (BuildContext context) => const HomeScreen()),
               (route) => false);
         });
       } else {
@@ -150,7 +148,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: TextButton(
                         onPressed: () {
                           setState(() {
-                            _isLoading = true;
                           });
                           login(_emailController.text, _pwController.text);
                         },
@@ -185,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.blue,
                                 fontSize: 16))),
-                    TextButton(
+                    /*TextButton(
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -196,6 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         'TEST HTTP',
                       ),
                     ),
+                    */
                   ],
                 ),
               ),
