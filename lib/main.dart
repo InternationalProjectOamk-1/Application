@@ -39,7 +39,6 @@ class MyApp extends StatelessWidget {
             controller: controller,
             scrollDirection: Axis.horizontal,
             children: const <Widget>[
-              ChatScreen(),
               LoginScreen(),
               HomeScreen(),
               MapScreen(),

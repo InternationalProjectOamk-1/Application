@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mapplication/data/events.dart';
 import 'package:mapplication/styles/home_style.dart';
+import 'package:mapplication/widgets/event_info.dart';
 
 Padding eventBuilder(BuildContext context, int index) {
   return Padding(
     padding: const EdgeInsets.all(10.0),
     child: GestureDetector(
-      onTap: () => showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          content: Text(event_data[index].toString()),
-          backgroundColor: Colors.orange[100],
-          actions: [TextButton(onPressed: () {}, child: const Text("Join!"))],
-        ),
-        barrierDismissible: true,
-      ),
+      onTap: () => EventInfo(context, index),
       child: Container(
         padding: const EdgeInsets.all(5.0),
         decoration: myOrangeCustom,
@@ -43,7 +36,7 @@ Padding eventBuilder(BuildContext context, int index) {
                   ],
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
