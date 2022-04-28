@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mapplication/components/Chat/chat_settings.dart';
 import 'package:mapplication/consts/styling_consts.dart';
 import 'package:mapplication/widgets/Chat/chat_body.dart';
 
@@ -8,7 +9,7 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(),
+      appBar: buildAppBar(context),
       body: const ChatBody(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
@@ -20,8 +21,8 @@ class ChatScreen extends StatelessWidget {
       ),
     );
   }
-
-  AppBar buildAppBar() {
+  
+  AppBar buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 0,
       automaticallyImplyLeading: false,
@@ -30,13 +31,12 @@ class ChatScreen extends StatelessWidget {
       ),
       actions: [
         IconButton(
-          onPressed: (() {}),
-          icon: Icon(Icons.search)
+          onPressed: () {},
+          icon: Icon(Icons.tune),
+          iconSize: 25.0,
         ),
       ], 
     );
   }
-
-
-
+  
 }

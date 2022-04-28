@@ -37,7 +37,7 @@ class _SignInScreenState extends State<SignInScreen> {
   var jsonData = null;
 
   void forgor() {
-  print("Forgot password pressed");
+    print("Forgot password pressed");
   }
 
   void register(String username, String email, String password) async {
@@ -99,8 +99,8 @@ class _SignInScreenState extends State<SignInScreen> {
                   colors: [
                     Color(0xff5ac18e),
                     Colors.white,
-                  ]
-                )
+                  ],
+                ),
               ),
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(
@@ -146,9 +146,9 @@ class _SignInScreenState extends State<SignInScreen> {
                       type: TextInputType.text,  
                       iconType: Icons.lock,
                     ),
-                    
-                   const SizedBox(height: 8),
-                     _inputError
+                    const SizedBox(height: 8),
+
+                    _inputError
                     ?
                     InputError(
                       typeOfError: jsonData,
@@ -158,7 +158,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     const SizedBox(height: 0),
 
                     const SizedBox(height: 50),
-                    
+                      
                     _signUpPressed == true && _inputError != false
                     ?
                     const Text(
@@ -210,7 +210,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   ],
                 ),
               ),  
-            )
+            ),
           ],
         ),
       ),

@@ -87,13 +87,15 @@ class _LoginScreenState extends State<LoginScreen> {
               height: double.infinity,
               width: double.infinity,
               decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                    Color(0xff5ac18e),
-                    Colors.white,
-                  ])),
+								gradient: LinearGradient(
+									begin: Alignment.topLeft,
+									end: Alignment.bottomRight,
+									colors: [
+										Color(0xff5ac18e),
+										Colors.white,
+									],
+								),
+							),
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 25,
@@ -112,39 +114,47 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 50),
                     BuildFields(
-                        controllerType: _emailController,
-                        text: 'Email',
-                        type: TextInputType.emailAddress,
-                        iconType: Icons.email),
+											controllerType: _emailController,
+											text: 'Email',
+											type: TextInputType.emailAddress,
+											iconType: Icons.email
+										),
                     const SizedBox(height: 8),
                     BuildFields(
-                        controllerType: _pwController,
-                        text: 'Password',
-                        type: TextInputType.text,
-                        iconType: Icons.lock),
+											controllerType: _pwController,
+											text: 'Password',
+											type: TextInputType.text,
+											iconType: Icons.lock
+										),
                     const SizedBox(height: 8),
                     _inputError
-                        ? InputError(
-                            typeOfError: jsonData.toString(),
-                            errorType: _statusCode,
-                          )
-                        : const SizedBox(height: 0),
+                    ?
+                    InputError(
+                      typeOfError: jsonData.toString(),
+                      errorType: _statusCode,
+                    )
+                    : const SizedBox(height: 0),
                     TextButton(
-                        onPressed: forgor,
-                        //TO-DO: Create proper forget password page
-                        child: const Text('Forgot Password ?',
-                            style: TextStyle(
-                                fontFamily: 'Mont',
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize: 16))),
+                      onPressed: forgor,
+                      //TO-DO: Create proper forget password page
+                      child: const Text(
+                        'Forgot Password ?',
+                        style: TextStyle(
+                          fontFamily: 'Mont',
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 16
+                        ),
+                      ),
+                    ),
                     const SizedBox(height: 10),
                     Container(
                       height: 50,
                       width: 200,
                       decoration: BoxDecoration(
-                          color: Colors.blue[400],
-                          borderRadius: BorderRadius.circular(10)),
+                        color: Colors.blue[400],
+                        borderRadius: BorderRadius.circular(10)
+                      ),
                       child: TextButton(
                         onPressed: () {
                           setState(() {
@@ -162,38 +172,34 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     const SizedBox(height: 50),
-                    const Text('Don\'t have an account?',
-                        style: TextStyle(
-                            fontFamily: 'Mont',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontSize: 16)),
+                    const Text(
+                      'Don\'t have an account?',
+                      style: TextStyle(
+                        fontFamily: 'Mont',
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 16
+                      ),
+                    ),
                     TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SignInScreen()),
-                          );
-                        }, //TO-DO: Create proper forget password page
-                        child: const Text('Sign Up Here',
-                            style: TextStyle(
-                                fontFamily: 'Mont',
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blue,
-                                fontSize: 16))),
-                    /*TextButton(
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const Test()),
+                          MaterialPageRoute(
+                            builder: (context) => const SignInScreen()
+                          ),
                         );
-                      },
+                      }, //TO-DO: Create proper forget password page
                       child: const Text(
-                        'TEST HTTP',
+                      'Sign Up Here',
+                        style: TextStyle(
+                          fontFamily: 'Mont',
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue,
+                          fontSize: 16
+                        ),
                       ),
                     ),
-                    */
                   ],
                 ),
               ),

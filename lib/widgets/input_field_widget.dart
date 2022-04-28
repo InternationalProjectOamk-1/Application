@@ -29,8 +29,8 @@ class BuildFields extends StatelessWidget {
                 color: Colors.black26,
                 blurRadius: 6,
                 offset: Offset(0,2)
-              )
-            ]
+              ),
+            ],
           ),
           height: 45,
           child:  TextField(
@@ -50,12 +50,12 @@ class BuildFields extends StatelessWidget {
               hintText: text,
               hintStyle: const TextStyle(
                 color: Colors.black38
-              )
+              ),
             ),
           ),
         ),
         const SizedBox(height: 10)
       ],
     );
-}
+  }
 }
