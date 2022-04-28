@@ -43,19 +43,20 @@ class _MapScreenState extends State<MapScreen> {
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    return await Geolocator.getCurrentPosition(
+    print('You are currently at: $currentPosition');
+    currentPosition = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
+    var position;
+    LatLng latLngPosition = LatLng(position.latitude, position.longitude);
+
+    CameraPosition cameraPosition =
+        CameraPosition(target: latLngPosition, zoom: 11);
+    _mapController
+        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+    return;
 
     //Position position = await Geolocator.getCurrentPosition(
     //    desiredAccuracy: LocationAccuracy.high);
-    // currentPosition = position;
-
-    //LatLng latLngPosition = LatLng(position.latitude, position.longitude);
-
-    // CameraPosition cameraPosition =
-    //     CameraPosition(target: latLngPosition, zoom: 11);
-    // _mapController
-    //     .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
   }
 
   @override
@@ -76,9 +77,10 @@ class _MapScreenState extends State<MapScreen> {
             rotateGesturesEnabled: true,
             myLocationButtonEnabled: true,
             myLocationEnabled: true,
-            padding: const EdgeInsets.only(top: 40.0),
+            padding: const EdgeInsets.only(top: 31.0),
             initialCameraPosition: CameraPosition(
-              target: placeHolderPos,
+              target:
+                  LatLng(currentPosition.latitude, currentPosition.longitude),
               zoom: 12,
             ),
             markers: _events,
@@ -113,9 +115,8 @@ class _MapScreenState extends State<MapScreen> {
     locatePosition();
     //LocationData currentLocation;
     //currentLocation = await location.getLocation();
-    //_mapController.animateCamera(CameraUpdate.newCameraPosition(
-    //  CameraPosition(target: LatLng(currentLocation))
-    //))
+    _mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target: LatLng(currentPosition.latitude, currentPosition.longitude))));
 
     setState(() {
       _events.add(
