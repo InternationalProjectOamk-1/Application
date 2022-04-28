@@ -2,7 +2,6 @@
 import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/rendering.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -47,8 +46,8 @@ class _MapScreenState extends State<MapScreen> {
     return await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
 
-    // Position position = await Geolocator.getCurrentPosition(
-    //     desiredAccuracy: LocationAccuracy.high);
+    //Position position = await Geolocator.getCurrentPosition(
+    //    desiredAccuracy: LocationAccuracy.high);
     // currentPosition = position;
 
     //LatLng latLngPosition = LatLng(position.latitude, position.longitude);
@@ -63,31 +62,28 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        GoogleMap(
-          gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
-            Factory<OneSequenceGestureRecognizer>(
-              () => EagerGestureRecognizer(),
+        SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: GoogleMap(
+            gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+              Factory<OneSequenceGestureRecognizer>(
+                () => EagerGestureRecognizer(),
+              ),
+            },
+            tiltGesturesEnabled: false,
+            zoomControlsEnabled: false,
+            rotateGesturesEnabled: true,
+            myLocationButtonEnabled: true,
+            myLocationEnabled: true,
+            padding: const EdgeInsets.only(top: 40.0),
+            initialCameraPosition: CameraPosition(
+              target: placeHolderPos,
+              zoom: 12,
             ),
-          },
-          tiltGesturesEnabled: false,
-          zoomControlsEnabled: false,
-          rotateGesturesEnabled: true,
-          myLocationButtonEnabled: true,
-          myLocationEnabled: true,
-          initialCameraPosition: CameraPosition(
-            target: placeHolderPos,
-            zoom: 12,
-          ),
-          markers: _events,
-          onLongPress: _handleLongPress,
-          onMapCreated: _onMapCreated,
-        ),
-        Container(
-          alignment: Alignment.bottomLeft,
-          padding: const EdgeInsets.fromLTRB(70, 0, 0, 8),
-          child: const Text(
-            'ActMap v. 0.2',
-            style: TextStyle(color: Colors.white),
+            markers: _events,
+            onLongPress: _handleLongPress,
+            onMapCreated: _onMapCreated,
           ),
         )
       ],
@@ -115,6 +111,11 @@ class _MapScreenState extends State<MapScreen> {
     controller.setMapStyle(Utils.mapStyle);
 
     locatePosition();
+    //LocationData currentLocation;
+    //currentLocation = await location.getLocation();
+    //_mapController.animateCamera(CameraUpdate.newCameraPosition(
+    //  CameraPosition(target: LatLng(currentLocation))
+    //))
 
     setState(() {
       _events.add(
