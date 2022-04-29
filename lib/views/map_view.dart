@@ -43,20 +43,18 @@ class _MapScreenState extends State<MapScreen> {
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    print('You are currently at: $currentPosition');
-    currentPosition = await Geolocator.getCurrentPosition(
+    Position currentPosition = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
-    var position;
-    LatLng latLngPosition = LatLng(position.latitude, position.longitude);
+
+    LatLng latLngPosition =
+        LatLng(currentPosition.latitude, currentPosition.longitude);
 
     CameraPosition cameraPosition =
-        CameraPosition(target: latLngPosition, zoom: 11);
+        CameraPosition(target: latLngPosition, zoom: 12);
     _mapController
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
-    return;
 
-    //Position position = await Geolocator.getCurrentPosition(
-    //    desiredAccuracy: LocationAccuracy.high);
+    return;
   }
 
   @override
@@ -78,10 +76,9 @@ class _MapScreenState extends State<MapScreen> {
             myLocationButtonEnabled: true,
             myLocationEnabled: true,
             padding: const EdgeInsets.only(top: 31.0),
-            initialCameraPosition: CameraPosition(
-              target:
-                  LatLng(currentPosition.latitude, currentPosition.longitude),
-              zoom: 12,
+            initialCameraPosition: const CameraPosition(
+              target: LatLng(51.0, 13.0),
+              zoom: 15,
             ),
             markers: _events,
             onLongPress: _handleLongPress,
@@ -113,10 +110,6 @@ class _MapScreenState extends State<MapScreen> {
     controller.setMapStyle(Utils.mapStyle);
 
     locatePosition();
-    //LocationData currentLocation;
-    //currentLocation = await location.getLocation();
-    _mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-        target: LatLng(currentPosition.latitude, currentPosition.longitude))));
 
     setState(() {
       _events.add(
