@@ -1,10 +1,13 @@
 //import 'package:clippy_flutter/arc.dart';
-import 'dart:collection';
+import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mapplication/data/events.dart';
+import 'package:mapplication/models/event_model.dart';
+import 'package:http/http.dart' as http;
 import '../styles/map_style.dart';
 
 class MapScreen extends StatefulWidget {
@@ -15,9 +18,16 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  final Set<Marker> _events = HashSet<Marker>();
-  final placeHolderPos = const LatLng(65.0135579, 25.4809041);
+  List<Marker> allMarkers = [];
   late GoogleMapController _mapController;
+
+  @override
+  void initState() {
+    loadMarkers();
+    super.initState();
+  }
+
+  //var _state = "Loading";
 
   Position? currentPosition;
   var geoLocator = Geolocator();
@@ -80,7 +90,7 @@ class _MapScreenState extends State<MapScreen> {
               target: LatLng(51.0, 13.0),
               zoom: 15,
             ),
-            markers: _events,
+            markers: Set<Marker>.of(allMarkers),
             onLongPress: _handleLongPress,
             onMapCreated: _onMapCreated,
           ),
@@ -92,7 +102,7 @@ class _MapScreenState extends State<MapScreen> {
   _handleLongPress(LatLng pos) {
     setState(() {
       //_events = [];
-      _events.add(Marker(
+      allMarkers.add(Marker(
         markerId: MarkerId(pos.toString()),
         position: pos,
         draggable: true,
@@ -110,20 +120,47 @@ class _MapScreenState extends State<MapScreen> {
     controller.setMapStyle(Utils.mapStyle);
 
     locatePosition();
+  }
+
+  @override
+  void dispose() {
+    _mapController.dispose();
+    super.dispose();
+  }
+
+  loadMarkers() async {
+    List<EventData> markers = [];
+    markers = await fetchAllEvents();
+
+    for (int i = 0; i < markers.length; i++) {
+      LatLng latlng = LatLng(markers[i].latitude!, markers[i].longitude!);
+      allMarkers.add(Marker(
+          markerId: MarkerId(markers[i].id.toString()),
+          position: latlng,
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+          infoWindow: InfoWindow(
+            title: markers[i].title,
+            snippet: markers[i].description,
+            // Implement join onTap?
+          )));
+    }
 
     setState(() {
-      _events.add(
-        Marker(
-          markerId: const MarkerId('0'),
-          position: const LatLng(65.0135579, 25.4809041),
-          icon:
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-          infoWindow: const InfoWindow(
-            title: "Event in Oulu",
-            snippet: "This event is currently taking place",
-          ),
-        ),
-      );
+      //_state = "Ready";
     });
+  }
+
+  Future<List<EventData>> fetchAllEvents() async {
+    final response = await http
+        .get(Uri.parse('http://office.pepr.com:25252/Event/getAllEvents'));
+    if (response.body != '[]' && response.statusCode == 200) {
+      List eventResponse = json.decode(response.body);
+      print('Request succesful');
+      return eventResponse.map((e) => EventData.fromJson(e)).toList();
+    } else {
+      List eventResponseLocal = event_data;
+      return eventResponseLocal.map((e) => EventData.fromJson(e)).toList();
+    }
   }
 }
