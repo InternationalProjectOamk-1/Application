@@ -157,9 +157,12 @@ class _MapScreenState extends State<MapScreen> {
     if (response.body != '[]' && response.statusCode == 200) {
       List eventResponse = json.decode(response.body);
       print('Request succesful');
+      print(response.statusCode);
       return eventResponse.map((e) => EventData.fromJson(e)).toList();
     } else {
       List eventResponseLocal = event_data;
+      print('Request unsuccesful');
+      print(response.statusCode);
       return eventResponseLocal.map((e) => EventData.fromJson(e)).toList();
     }
   }
