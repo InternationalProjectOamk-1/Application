@@ -16,7 +16,7 @@ Padding eventBuilder(BuildContext context, int index) {
           children: [
             Text(
               event_data[index]['title'].toString(),
-              style: Theme.of(context).textTheme.displayMedium,
+              //style: Theme.of(context).textTheme.displayMedium,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
