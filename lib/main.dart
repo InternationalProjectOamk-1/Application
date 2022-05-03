@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mapplication/views/chat_page.dart';
 import 'package:mapplication/views/chat_view.dart';
 import 'package:mapplication/views/home_screen.dart';
 import 'package:mapplication/views/login_view.dart';
@@ -39,7 +40,8 @@ class MyApp extends StatelessWidget {
             controller: controller,
             scrollDirection: Axis.horizontal,
             children: const <Widget>[
-              ChatScreen(),
+              // ChatScreen(),
+              ChatPage(),
               LoginScreen(),
               HomeScreen(),
               MapScreen(),
