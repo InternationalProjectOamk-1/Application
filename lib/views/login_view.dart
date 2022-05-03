@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:mapplication/views/signup_view.dart';
 import '../widgets/input_field_widget.dart';
-import '../consts/user_service_consts.dart ' as constants;
+import '../consts/service_consts.dart ' as constants;
 
 /*
 TO-DO: 

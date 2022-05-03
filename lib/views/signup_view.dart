@@ -7,7 +7,7 @@ import 'package:mapplication/widgets/input_error_notice.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/input_field_widget.dart';
-import '../consts/user_service_consts.dart ' as constants;
+import '../consts/service_consts.dart ' as constants;
 
 
 /*
@@ -40,11 +40,15 @@ class _SignInScreenState extends State<SignInScreen> {
     print("Forgot password pressed");
   }
 
-  void register(String username, String email, String password) async {
+  void register(String username, String email, String password, String profileImg) async {
+
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
     Map<String, String> data = {
       'username': username,
       'email': email,
-      'password': password
+      'password': password,
+      'profileImg': 'https://i.redd.it/86rcqld6lxn81.jpg'
     };
 
     try{
@@ -62,9 +66,13 @@ class _SignInScreenState extends State<SignInScreen> {
 
       if(response.statusCode == 200){
         
-        String responseApi = response.body.toString().replaceAll("\n","");
-        jsonData = jsonDecode(responseApi); 
+        String responseBody = response.body.toString().replaceAll("\n","");
+        jsonData = jsonDecode(responseBody); 
         print('SignUp successfully');
+
+        sharedPreferences.setString('user', username);
+
+      
 
       }else {
         print(jsonEncode(data).replaceAll(",", ",\n"));
@@ -182,7 +190,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           setState(() {
                             _signUpPressed = true;
                           });
-                          register(_usernameController.text, _emailController.text, _pwController.text);
+                          register(_usernameController.text, _emailController.text, _pwController.text, 'https://i.redd.it/86rcqld6lxn81.jpg');
                         },
                         child: const Text(
                           'Sign Up',
