@@ -5,10 +5,10 @@ import 'package:mapplication/consts/styling_consts.dart';
 class TextMessage extends StatelessWidget {
   const TextMessage({
     Key? key, 
-    required this.message
+    required this.chatMessage
   }) : super(key: key);
 
-  final ChatMessage message;
+  final ChatMessage chatMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +18,11 @@ class TextMessage extends StatelessWidget {
         vertical: appDefaultPadding / 1.2,
       ),
       decoration: BoxDecoration(
-        color: appDefaultColor.withOpacity(message.isSender ? 0.4 : 0.2),
+        color: appDefaultColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(30)
       ),
       child: Text(
-        message.text,
+        chatMessage.message,
         style: const TextStyle(
           color: Colors.black54,
         ),
