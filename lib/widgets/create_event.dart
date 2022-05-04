@@ -49,7 +49,7 @@ class EventButton extends StatelessWidget {
                       SizedBox(height: 10),
                       CreateEventTextField(
                         name: 'Start of event',
-                        icon: Icons.start,
+                        icon: Icons.star,
                       ),
                       SizedBox(height: 10),
                       TextButton(

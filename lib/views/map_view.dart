@@ -27,7 +27,7 @@ class _MapScreenState extends State<MapScreen> {
     super.initState();
   }
 
-  //var _state = "Loading";
+  var _state = "Loading";
 
   Position? currentPosition;
   var geoLocator = Geolocator();
@@ -64,39 +64,45 @@ class _MapScreenState extends State<MapScreen> {
     _mapController
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
-    return;
+    return currentPosition;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        SizedBox(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: GoogleMap(
-            gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
-              Factory<OneSequenceGestureRecognizer>(
-                () => EagerGestureRecognizer(),
+    if (_state == 'Loading') {
+      return const Center(child: CircularProgressIndicator());
+    } else if (_state == 'Complete') {
+      return Stack(
+        children: <Widget>[
+          SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: GoogleMap(
+              gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+                Factory<OneSequenceGestureRecognizer>(
+                  () => EagerGestureRecognizer(),
+                ),
+              },
+              tiltGesturesEnabled: false,
+              zoomControlsEnabled: false,
+              rotateGesturesEnabled: true,
+              myLocationButtonEnabled: true,
+              myLocationEnabled: true,
+              padding: const EdgeInsets.only(top: 31.0),
+              initialCameraPosition: const CameraPosition(
+                target: LatLng(51.0, 13.0),
+                zoom: 18,
               ),
-            },
-            tiltGesturesEnabled: false,
-            zoomControlsEnabled: false,
-            rotateGesturesEnabled: true,
-            myLocationButtonEnabled: true,
-            myLocationEnabled: true,
-            padding: const EdgeInsets.only(top: 31.0),
-            initialCameraPosition: const CameraPosition(
-              target: LatLng(51.0, 13.0),
-              zoom: 15,
+              markers: Set<Marker>.of(allMarkers),
+              onLongPress: _handleLongPress,
+              onMapCreated: _onMapCreated,
             ),
-            markers: Set<Marker>.of(allMarkers),
-            onLongPress: _handleLongPress,
-            onMapCreated: _onMapCreated,
-          ),
-        )
-      ],
-    );
+          )
+        ],
+      );
+    } else {
+      return const Scaffold(body: Center(child: Text(':(')));
+    }
   }
 
   _handleLongPress(LatLng pos) {
@@ -147,7 +153,7 @@ class _MapScreenState extends State<MapScreen> {
     }
 
     setState(() {
-      //_state = "Ready";
+      _state = "Complete";
     });
   }
 
