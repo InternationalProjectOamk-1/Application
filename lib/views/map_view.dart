@@ -20,14 +20,17 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   List<Marker> allMarkers = [];
   late GoogleMapController _mapController;
+  //static late LatLng _initialPosition;
+  //static LatLng _lastMapPosition = _initialPosition;
 
   @override
   void initState() {
     loadMarkers();
+    locatePosition();
     super.initState();
   }
 
-  var _state = "Loading";
+  var _state = 'Loading';
 
   Position? currentPosition;
   var geoLocator = Geolocator();
@@ -59,12 +62,15 @@ class _MapScreenState extends State<MapScreen> {
     LatLng latLngPosition =
         LatLng(currentPosition.latitude, currentPosition.longitude);
 
+    //_initialPosition =
+    //    LatLng(currentPosition.latitude, currentPosition.longitude);
+
     CameraPosition cameraPosition =
         CameraPosition(target: latLngPosition, zoom: 12);
     _mapController
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
-    return currentPosition;
+    return;
   }
 
   @override
@@ -86,12 +92,13 @@ class _MapScreenState extends State<MapScreen> {
               tiltGesturesEnabled: false,
               zoomControlsEnabled: false,
               rotateGesturesEnabled: true,
+              compassEnabled: true,
               myLocationButtonEnabled: true,
               myLocationEnabled: true,
               padding: const EdgeInsets.only(top: 31.0),
               initialCameraPosition: const CameraPosition(
-                target: LatLng(51.0, 13.0),
-                zoom: 18,
+                target: LatLng(57, 13),
+                zoom: 17,
               ),
               markers: Set<Marker>.of(allMarkers),
               onLongPress: _handleLongPress,
@@ -101,7 +108,7 @@ class _MapScreenState extends State<MapScreen> {
         ],
       );
     } else {
-      return const Scaffold(body: Center(child: Text(':(')));
+      return const Scaffold(body: Center(child: Text('Something went wrong')));
     }
   }
 
@@ -125,7 +132,7 @@ class _MapScreenState extends State<MapScreen> {
     _mapController = controller;
     controller.setMapStyle(Utils.mapStyle);
 
-    locatePosition();
+    //locatePosition();
   }
 
   @override
