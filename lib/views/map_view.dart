@@ -1,13 +1,9 @@
-//import 'package:clippy_flutter/arc.dart';
-import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mapplication/data/events.dart';
 import 'package:mapplication/models/event_model.dart';
-import 'package:http/http.dart' as http;
 import '../styles/map_style.dart';
 
 class MapScreen extends StatefulWidget {
@@ -30,7 +26,6 @@ class _MapScreenState extends State<MapScreen> {
   void initState() {
     loadMarkers();
     locatePosition();
-    fetchAllInterests();
     super.initState();
   }
 
