@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:mapplication/data/events.dart';
+
 class EventData {
   final int id;
   final String description;
@@ -45,4 +49,21 @@ class EventData {
       hasStarted: json['hasStarted'],
     );
   }
+
 }
+    Future<List<EventData>> fetchAllEvents() async {
+    final response = await http
+        .get(Uri.parse('http://office.pepr.com:25252/Event/getAllEvents'));
+    if (response.body != '[]' && response.statusCode == 200) {
+      List eventResponse = json.decode(response.body);
+      print('Request succesful: Events');
+      print(response.statusCode);
+      return eventResponse.map((e) => EventData.fromJson(e)).toList();
+    } else {
+      List eventResponseLocal = event_data;
+      print('Request unsuccesful: Events');
+      print(response.statusCode);
+      return eventResponseLocal.map((e) => EventData.fromJson(e)).toList();
+    }
+  }
+

@@ -32,7 +32,7 @@ class _MapScreenState extends State<MapScreen> {
   void initState() {
     loadMarkers();
     locatePosition();
-    //fetchAllInterests();
+    fetchAllInterests();
     super.initState();
   }
 
@@ -159,40 +159,5 @@ class _MapScreenState extends State<MapScreen> {
     setState(() {
       _state = "Complete";
     });
-  }
-
-  Future<List<EventData>> fetchAllEvents() async {
-    final response = await http
-        .get(Uri.parse('http://office.pepr.com:25252/Event/getAllEvents'));
-    if (response.body != '[]' && response.statusCode == 200) {
-      List eventResponse = json.decode(response.body);
-      print('Request succesful: Events');
-      print(response.statusCode);
-      return eventResponse.map((e) => EventData.fromJson(e)).toList();
-    } else {
-      List eventResponseLocal = event_data;
-      print('Request unsuccesful: Events');
-      print(response.statusCode);
-      return eventResponseLocal.map((e) => EventData.fromJson(e)).toList();
-    }
-  }
-
-  Future<List<InterestData>> fetchAllInterests() async {
-    final response =
-        await http.get(Uri.parse('http://office.pepr.com:25252/Interests'));
-    if (response.body != '[]' && response.statusCode == 200) {
-      List interestResponse = json.decode(response.body);
-      print('Request succesful: Interests');
-      print(response.statusCode);
-      print(response.body);
-      return interestResponse.map((e) => InterestData.fromJson(e)).toList();
-    } else {
-      List interestResponseLocal = interest_data;
-      print('Request unsuccessful: Interests');
-      print(response.statusCode);
-      return interestResponseLocal
-          .map((e) => InterestData.fromJson(e))
-          .toList();
-    }
   }
 }
