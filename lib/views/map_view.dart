@@ -56,11 +56,11 @@ class _MapScreenState extends State<MapScreen> {
               zoomControlsEnabled: false,
               rotateGesturesEnabled: true,
               compassEnabled: true,
+              padding: const EdgeInsets.only(top: 31.0),
               myLocationButtonEnabled: true,
               myLocationEnabled: true,
-              padding: const EdgeInsets.only(top: 31.0),
               initialCameraPosition: const CameraPosition(
-                target: LatLng(57, 13),
+                target: LatLng(58, 13),
                 zoom: 17,
               ),
               markers: Set<Marker>.of(allMarkers),
@@ -133,15 +133,10 @@ class _MapScreenState extends State<MapScreen> {
   _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
     controller.setMapStyle(Utils.mapStyle);
-
-    //locatePosition();
+    setState(() {});
   }
 
-  @override
-  void dispose() {
-    _mapController.dispose();
-    super.dispose();
-  }
+
 
   loadMarkers() async {
     List<EventData> markers = [];
