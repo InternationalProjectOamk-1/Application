@@ -6,8 +6,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mapplication/data/events.dart';
+import 'package:mapplication/data/interests.dart';
 import 'package:mapplication/models/event_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:mapplication/models/interest_model.dart';
 import '../styles/map_style.dart';
 
 class MapScreen extends StatefulWidget {
@@ -20,17 +22,59 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   List<Marker> allMarkers = [];
   late GoogleMapController _mapController;
+  var _state = 'Loading';
+  Position? currentPosition;
+  var geoLocator = Geolocator();
+  //static late LatLng _initialPosition;
+  //static LatLng _lastMapPosition = _initialPosition;
 
   @override
   void initState() {
     loadMarkers();
+    locatePosition();
+    //fetchAllInterests();
     super.initState();
   }
 
-  //var _state = "Loading";
+  @override
+  Widget build(BuildContext context) {
+    if (_state == 'Loading') {
+      return const Center(child: CircularProgressIndicator());
+    } else if (_state == 'Complete') {
+      return Stack(
+        children: <Widget>[
+          SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: GoogleMap(
+              gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+                Factory<OneSequenceGestureRecognizer>(
+                  () => EagerGestureRecognizer(),
+                ),
+              },
+              tiltGesturesEnabled: false,
+              zoomControlsEnabled: false,
+              rotateGesturesEnabled: true,
+              compassEnabled: true,
+              padding: const EdgeInsets.only(top: 31.0),
+              myLocationButtonEnabled: true,
+              myLocationEnabled: true,
+              initialCameraPosition: const CameraPosition(
+                target: LatLng(58, 13),
+                zoom: 17,
+              ),
+              markers: Set<Marker>.of(allMarkers),
+              onLongPress: _handleLongPress,
+              onMapCreated: _onMapCreated,
+            ),
+          )
+        ],
+      );
+    } else {
+      return const Scaffold(body: Center(child: Text('Something went wrong')));
+    }
+  }
 
-  Position? currentPosition;
-  var geoLocator = Geolocator();
   locatePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -59,44 +103,15 @@ class _MapScreenState extends State<MapScreen> {
     LatLng latLngPosition =
         LatLng(currentPosition.latitude, currentPosition.longitude);
 
+    //_initialPosition =
+    //    LatLng(currentPosition.latitude, currentPosition.longitude);
+
     CameraPosition cameraPosition =
         CameraPosition(target: latLngPosition, zoom: 12);
     _mapController
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
     return;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        SizedBox(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: GoogleMap(
-            gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
-              Factory<OneSequenceGestureRecognizer>(
-                () => EagerGestureRecognizer(),
-              ),
-            },
-            tiltGesturesEnabled: false,
-            zoomControlsEnabled: false,
-            rotateGesturesEnabled: true,
-            myLocationButtonEnabled: true,
-            myLocationEnabled: true,
-            padding: const EdgeInsets.only(top: 31.0),
-            initialCameraPosition: const CameraPosition(
-              target: LatLng(51.0, 13.0),
-              zoom: 15,
-            ),
-            markers: Set<Marker>.of(allMarkers),
-            onLongPress: _handleLongPress,
-            onMapCreated: _onMapCreated,
-          ),
-        )
-      ],
-    );
   }
 
   _handleLongPress(LatLng pos) {
@@ -118,15 +133,10 @@ class _MapScreenState extends State<MapScreen> {
   _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
     controller.setMapStyle(Utils.mapStyle);
-
-    locatePosition();
+    setState(() {});
   }
 
-  @override
-  void dispose() {
-    _mapController.dispose();
-    super.dispose();
-  }
+
 
   loadMarkers() async {
     List<EventData> markers = [];
@@ -147,7 +157,7 @@ class _MapScreenState extends State<MapScreen> {
     }
 
     setState(() {
-      //_state = "Ready";
+      _state = "Complete";
     });
   }
 
@@ -156,14 +166,33 @@ class _MapScreenState extends State<MapScreen> {
         .get(Uri.parse('http://office.pepr.com:25252/Event/getAllEvents'));
     if (response.body != '[]' && response.statusCode == 200) {
       List eventResponse = json.decode(response.body);
-      print('Request succesful');
+      print('Request succesful: Events');
       print(response.statusCode);
       return eventResponse.map((e) => EventData.fromJson(e)).toList();
     } else {
       List eventResponseLocal = event_data;
-      print('Request unsuccesful');
+      print('Request unsuccesful: Events');
       print(response.statusCode);
       return eventResponseLocal.map((e) => EventData.fromJson(e)).toList();
+    }
+  }
+
+  Future<List<InterestData>> fetchAllInterests() async {
+    final response =
+        await http.get(Uri.parse('http://office.pepr.com:25252/Interests'));
+    if (response.body != '[]' && response.statusCode == 200) {
+      List interestResponse = json.decode(response.body);
+      print('Request succesful: Interests');
+      print(response.statusCode);
+      print(response.body);
+      return interestResponse.map((e) => InterestData.fromJson(e)).toList();
+    } else {
+      List interestResponseLocal = interest_data;
+      print('Request unsuccessful: Interests');
+      print(response.statusCode);
+      return interestResponseLocal
+          .map((e) => InterestData.fromJson(e))
+          .toList();
     }
   }
 }
