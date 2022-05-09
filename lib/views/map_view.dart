@@ -6,10 +6,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mapplication/data/events.dart';
-import 'package:mapplication/data/interests.dart';
 import 'package:mapplication/models/event_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:mapplication/models/interest_model.dart';
 import '../styles/map_style.dart';
 
 class MapScreen extends StatefulWidget {
@@ -32,7 +30,6 @@ class _MapScreenState extends State<MapScreen> {
   void initState() {
     loadMarkers();
     locatePosition();
-    //fetchAllInterests();
     super.initState();
   }
 
@@ -174,25 +171,6 @@ class _MapScreenState extends State<MapScreen> {
       print('Request unsuccesful: Events');
       print(response.statusCode);
       return eventResponseLocal.map((e) => EventData.fromJson(e)).toList();
-    }
-  }
-
-  Future<List<InterestData>> fetchAllInterests() async {
-    final response =
-        await http.get(Uri.parse('http://office.pepr.com:25252/Interests'));
-    if (response.body != '[]' && response.statusCode == 200) {
-      List interestResponse = json.decode(response.body);
-      print('Request succesful: Interests');
-      print(response.statusCode);
-      print(response.body);
-      return interestResponse.map((e) => InterestData.fromJson(e)).toList();
-    } else {
-      List interestResponseLocal = interest_data;
-      print('Request unsuccessful: Interests');
-      print(response.statusCode);
-      return interestResponseLocal
-          .map((e) => InterestData.fromJson(e))
-          .toList();
     }
   }
 }
