@@ -65,15 +65,11 @@ class _SignInScreenState extends State<SignInScreen> {
       );
 
       if(response.statusCode == 200){
-        
-        String responseBody = response.body.toString().replaceAll("\n","");
-        jsonData = jsonDecode(responseBody); 
         print('SignUp successfully');
-
-        sharedPreferences.setString('user', username);
-
+        
+        sharedPreferences.setString('jwt', response.body);
+        sharedPreferences.setString('username', username);
       
-
       }else {
         print(jsonEncode(data).replaceAll(",", ",\n"));
         print('Returned with HTTP status: ${response.statusCode}');
