@@ -136,7 +136,15 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                           ),
                           OutlinedButton(
                             onPressed: () {
-                              if (_titleController.text == "") {}
+                              if (_titleController.text != "") {
+                                if (_placeController.text != "") {
+                                  if (_interestsController.text != "") {
+                                    if (_numberOfPeopleController.text != "") {
+                                      print("Works!");
+                                    }
+                                  }
+                                }
+                              }
                             },
                             child: const Text("Create event"),
                           )
