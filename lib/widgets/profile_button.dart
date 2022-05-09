@@ -12,20 +12,18 @@ class ProfileButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(25.0),
-        child: Align(
-          alignment: Alignment.topRight,
-          child: GestureDetector(
-            onTap: () => press(),
-            child: Container(
-              padding: const EdgeInsets.all(10.0),
-              decoration: myProfileCustom,
-              child: Icon(
-                icon,
-                color: Colors.orange,
-              ),
+    return Padding(
+      padding: const EdgeInsets.all(25.0),
+      child: Align(
+        alignment: Alignment.topRight,
+        child: GestureDetector(
+          onTap: () => press(),
+          child: Container(
+            padding: const EdgeInsets.all(10.0),
+            decoration: myProfileCustom,
+            child: Icon(
+              icon,
+              color: Colors.orange,
             ),
           ),
         ),
