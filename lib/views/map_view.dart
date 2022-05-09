@@ -6,10 +6,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mapplication/data/events.dart';
-import 'package:mapplication/data/interests.dart';
 import 'package:mapplication/models/event_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:mapplication/models/interest_model.dart';
 import '../styles/map_style.dart';
 
 class MapScreen extends StatefulWidget {
