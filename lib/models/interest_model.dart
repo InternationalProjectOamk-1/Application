@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:mapplication/data/interests.dart';
 
@@ -15,7 +14,7 @@ class InterestData {
     return InterestData(
         id: json['id'], name: json['name'], description: json['description']);
   }
-
+}
     Future<List<InterestData>> fetchAllInterests() async {
     final response =
         await http.get(Uri.parse('http://office.pepr.com:25252/Interests'));
@@ -34,4 +33,4 @@ class InterestData {
           .toList();
     }
   }
-}
+
