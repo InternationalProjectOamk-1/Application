@@ -6,8 +6,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mapplication/data/events.dart';
+import 'package:mapplication/data/interests.dart';
 import 'package:mapplication/models/event_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:mapplication/models/interest_model.dart';
 import '../styles/map_style.dart';
 
 class MapScreen extends StatefulWidget {
@@ -20,6 +22,9 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   List<Marker> allMarkers = [];
   late GoogleMapController _mapController;
+  var _state = 'Loading';
+  Position? currentPosition;
+  var geoLocator = Geolocator();
   //static late LatLng _initialPosition;
   //static LatLng _lastMapPosition = _initialPosition;
 
@@ -27,50 +32,8 @@ class _MapScreenState extends State<MapScreen> {
   void initState() {
     loadMarkers();
     locatePosition();
+    //fetchAllInterests();
     super.initState();
-  }
-
-  var _state = 'Loading';
-
-  Position? currentPosition;
-  var geoLocator = Geolocator();
-  locatePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    Position currentPosition = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-
-    LatLng latLngPosition =
-        LatLng(currentPosition.latitude, currentPosition.longitude);
-
-    //_initialPosition =
-    //    LatLng(currentPosition.latitude, currentPosition.longitude);
-
-    CameraPosition cameraPosition =
-        CameraPosition(target: latLngPosition, zoom: 12);
-    _mapController
-        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
-
-    return;
   }
 
   @override
@@ -110,6 +73,45 @@ class _MapScreenState extends State<MapScreen> {
     } else {
       return const Scaffold(body: Center(child: Text('Something went wrong')));
     }
+  }
+
+  locatePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    Position currentPosition = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+
+    LatLng latLngPosition =
+        LatLng(currentPosition.latitude, currentPosition.longitude);
+
+    //_initialPosition =
+    //    LatLng(currentPosition.latitude, currentPosition.longitude);
+
+    CameraPosition cameraPosition =
+        CameraPosition(target: latLngPosition, zoom: 12);
+    _mapController
+        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+
+    return;
   }
 
   _handleLongPress(LatLng pos) {
@@ -169,14 +171,33 @@ class _MapScreenState extends State<MapScreen> {
         .get(Uri.parse('http://office.pepr.com:25252/Event/getAllEvents'));
     if (response.body != '[]' && response.statusCode == 200) {
       List eventResponse = json.decode(response.body);
-      print('Request succesful');
+      print('Request succesful: Events');
       print(response.statusCode);
       return eventResponse.map((e) => EventData.fromJson(e)).toList();
     } else {
       List eventResponseLocal = event_data;
-      print('Request unsuccesful');
+      print('Request unsuccesful: Events');
       print(response.statusCode);
       return eventResponseLocal.map((e) => EventData.fromJson(e)).toList();
+    }
+  }
+
+  Future<List<InterestData>> fetchAllInterests() async {
+    final response =
+        await http.get(Uri.parse('http://office.pepr.com:25252/Interests'));
+    if (response.body != '[]' && response.statusCode == 200) {
+      List interestResponse = json.decode(response.body);
+      print('Request succesful: Interests');
+      print(response.statusCode);
+      print(response.body);
+      return interestResponse.map((e) => InterestData.fromJson(e)).toList();
+    } else {
+      List interestResponseLocal = interest_data;
+      print('Request unsuccessful: Interests');
+      print(response.statusCode);
+      return interestResponseLocal
+          .map((e) => InterestData.fromJson(e))
+          .toList();
     }
   }
 }
