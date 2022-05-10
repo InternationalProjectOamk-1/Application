@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mapplication/views/chat_page.dart';
-import 'package:mapplication/views/chat_view.dart';
 import 'package:mapplication/views/home_screen.dart';
 import 'package:mapplication/views/login_view.dart';
 import 'package:mapplication/views/map_view.dart';
@@ -17,7 +16,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    
     final PageController controller = PageController(initialPage: 1);
     return MaterialApp(
       title: 'Flutter Demo',
@@ -40,7 +39,6 @@ class MyApp extends StatelessWidget {
             controller: controller,
             scrollDirection: Axis.horizontal,
             children: const <Widget>[
-              // ChatScreen(),
               ChatPage(),
               LoginScreen(),
               HomeScreen(),
