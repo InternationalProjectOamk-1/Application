@@ -17,7 +17,7 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   List<Marker> allMarkers = [];
   List<Marker> userMarker = [];
-  
+
   late GoogleMapController _mapController;
   var _state = 'Loading';
   Position? currentPosition;
@@ -111,13 +111,13 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   _handleLongPress(LatLng pos) {
-      setState(() {
-        allMarkers.add(Marker(
+    setState(() {
+      allMarkers.add(Marker(
         markerId: MarkerId(pos.toString()),
         position: pos,
         draggable: true,
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-        infoWindow: const InfoWindow(
+        infoWindow: InfoWindow(
           onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
