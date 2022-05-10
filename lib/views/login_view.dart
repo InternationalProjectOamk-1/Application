@@ -27,12 +27,12 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _pwController = TextEditingController();
 
-  
+
   bool _inputError = false;
   int _statusCode = 0;
   var jsonData = null;
 
-  //FIGURE OUT WHY THE LOGIN METHOD IS GET?
+  
   void login(email, password) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
@@ -50,10 +50,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
         setState(() {
           sharedPreferences.setString('token', jsonData);
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                  builder: (BuildContext context) => const HomeScreen()),
-              (route) => false);
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (BuildContext context) => const HomeScreen()),
+          );
         });
       } else {
         print('Returned with HTTP status: ${response.statusCode}');
@@ -157,8 +157,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       child: TextButton(
                         onPressed: () {
-                          setState(() {
-                          });
                           login(_emailController.text, _pwController.text);
                         },
                         child: const Text(
