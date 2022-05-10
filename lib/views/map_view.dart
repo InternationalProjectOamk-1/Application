@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mapplication/models/event_model.dart';
+import 'package:mapplication/views/create_event_from_map.dart';
 import '../styles/map_style.dart';
 
 class MapScreen extends StatefulWidget {
@@ -109,15 +110,20 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   _handleLongPress(LatLng pos) {
-      setState(() {
-        userMarker.clear();
-        userMarker.add(Marker(
+    setState(() {
+      userMarker.clear();
+      userMarker.add(Marker(
         markerId: const MarkerId('userMarker'),
         position: pos,
         draggable: true,
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-        infoWindow: const InfoWindow(
-          onTap: () => ,
+        infoWindow: InfoWindow(
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => CreateEventScreenFromMap(
+                        sendedpos: pos,
+                      ))),
           title: 'My event',
           snippet: 'Event taking place',
         ),
@@ -130,8 +136,6 @@ class _MapScreenState extends State<MapScreen> {
     controller.setMapStyle(Utils.mapStyle);
     setState(() {});
   }
-
-
 
   loadMarkers() async {
     List<EventData> markers = [];
