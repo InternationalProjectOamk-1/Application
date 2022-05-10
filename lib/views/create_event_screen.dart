@@ -19,6 +19,7 @@ TextEditingController _placeController = TextEditingController();
 TextEditingController _interestsController = TextEditingController();
 TextEditingController _numberOfPeopleController = TextEditingController();
 var selectedPlace = "";
+const tempUser = 9;
 
 class _CreateEventScreenState extends State<CreateEventScreen> {
   @override
