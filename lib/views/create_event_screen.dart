@@ -1,4 +1,7 @@
+
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mapplication/components/select_event_location.dart';
 import 'package:mapplication/styles/home_style.dart';
 import 'package:mapplication/widgets/profile_button.dart';
 
@@ -21,6 +24,15 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    LatLng pos;
+
+    changePlace(BuildContext context) async {
+    pos = await Navigator.push(context, MaterialPageRoute(builder: (context) => SelectEventLocation()));
+    setState(() {
+      selectedPlace = 'Selected';
+      print(selectedPlace);
+    });
+    }
 
     return Scaffold(
       backgroundColor: Colors.orange[100],
@@ -59,7 +71,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                             child: Row(children: <Widget>[
                               const Icon(Icons.place),
                               TextButton(
-                                  onPressed: () => changePlace(),
+                                  onPressed: () => changePlace(context),
                                   child: selectedPlace == ""
                                       ? const Text(
                                           "Select place",
@@ -166,11 +178,5 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
         ),
       ),
     );
-  }
-
-  changePlace() {
-    setState(() {
-      selectedPlace = "Selected";
-    });
   }
 }
