@@ -50,19 +50,51 @@ class EventData {
     );
   }
 }
-    Future<List<EventData>> fetchAllEvents() async {
-    final response = await http
-        .get(Uri.parse('http://office.pepr.com:25252/Event/getAllEvents'));
-    if (response.body != '[]' && response.statusCode == 200) {
-      List eventResponse = json.decode(response.body);
-      print('Request succesful: Events');
-      print(response.statusCode);
-      return eventResponse.map((e) => EventData.fromJson(e)).toList();
-    } else {
-      List eventResponseLocal = event_data;
-      print('Request unsuccesful: Events');
-      print(response.statusCode);
-      return eventResponseLocal.map((e) => EventData.fromJson(e)).toList();
-    }
+
+Future<EventData> createEvent(
+  String description,
+  String title,
+  List tagList,
+  bool locationBased,
+  double latitude,
+  double longitude,
+  int hostId,
+  int maxPeople,
+  int minPeople,
+  String startEvent,
+  bool hasStarted
+) async {
+final response = await http.post(
+      Uri.parse('http://office.pepr.com:25252/Event/CreateEvent'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        "description": description,
+        "interests": tagList,
+        "members": [0],
+        "title": title,
+        "locationBased": locationBased,
+        "latitude": latitude,
+        "longitude": longitude,
+        "hostID": hostId,
+        "maxPeople": maxPeople,
+        "minPeople": minPeople,
+        "startEvent": startEvent,
+        "hasStarted": hasStarted
+      }));
+  print(json.encode(response.body));
+  if (response.statusCode == 200) {
+    // If the server did return a 201 CREATED response,
+    // then parse the JSON.
+    print('result: ' + jsonDecode(response.body));
+    return EventData.fromJson(jsonDecode(response.body));
+  } else {
+    print(response.statusCode);
+    // If the server did not return a 201 CREATED response,
+    // then throw an exception.
+    print('resultti: no can do' + response.body);
+    throw Exception('Failed to create event.');
   }
+}
 
