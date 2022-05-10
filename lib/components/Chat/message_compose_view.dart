@@ -78,6 +78,7 @@ class _MessageComposeViewState extends State<MessageComposeView> {
                               onPressed: () {
                                 vm.sendChatMessage(_messageTextController.text, vm.room, _username);
                                 _messageTextController.clear();
+                                
                               },
                             ),
                           ],
