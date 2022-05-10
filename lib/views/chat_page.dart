@@ -65,9 +65,10 @@ class MessageChatView extends StatelessWidget {
             propertyName: ChatPageViewModel.chatMessagesPropName,
             builder: (context, snapshot) {
               return ListView.builder(
+                reverse: true,
                 itemCount: vm.chatMessages.length,
                 itemBuilder: (BuildContext ctx, int index) =>
-                  _createMessageItemViewAlt(vm.chatMessages[index], context),
+                  _createMessageItemViewAlt(vm.chatMessages.reversed.toList()[index], context),
               );
             },
           )
