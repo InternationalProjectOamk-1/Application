@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mapplication/data/events.dart';
 import 'package:mapplication/styles/home_style.dart';
+import 'package:mapplication/views/home_screen.dart';
 import 'package:mapplication/widgets/event_info.dart';
 
 Padding eventBuilder(BuildContext context, int index) {
@@ -15,7 +15,7 @@ Padding eventBuilder(BuildContext context, int index) {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              event_data[index]['title'].toString(),
+              eventsData[index].title,
               //style: Theme.of(context).textTheme.displayMedium,
             ),
             Row(
@@ -25,14 +25,14 @@ Padding eventBuilder(BuildContext context, int index) {
                   children: [
                     const Icon(Icons.group),
                     Text(
-                      '${event_data[index]["members"]}/${event_data[index]["maxPeople"]}',
+                      '${eventsData[index].members}/${eventsData[index].maxPeople}',
                     )
                   ],
                 ),
                 Row(
                   children: [
                     const Icon(Icons.manage_accounts_sharp),
-                    Text('${event_data[index]["hostID"]}'),
+                    Text('${eventsData[index].hostID}'),
                   ],
                 ),
               ],
