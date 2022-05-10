@@ -207,7 +207,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                       onPressed: () {
                         setState(() {
-                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => const LoginScreen()), (route) => false);
+                          Navigator.of(context).pop(MaterialPageRoute(builder: (BuildContext context) => const LoginScreen()));
                         });
                       },
                     ),
