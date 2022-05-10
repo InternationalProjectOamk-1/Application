@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:meta/meta.dart';
-import 'package:observable/observable.dart';
 import 'package:quiver/strings.dart';
 import 'package:rxdart/rxdart.dart';
 
