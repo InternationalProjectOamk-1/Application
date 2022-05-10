@@ -23,7 +23,7 @@ class ChatPageViewModel extends ViewModel {
   HubConnectionState hubState = HubConnectionState.Disconnected;
   late Logger _logger;
   late StreamSubscription<LogRecord> _logMessagesSub;
- 
+  
   late List<ChatMessage> _chatMessages;
   static const String chatMessagesPropName = "chatMessages";
   List<ChatMessage> get chatMessages => _chatMessages;
@@ -79,16 +79,16 @@ class ChatPageViewModel extends ViewModel {
 
     if (hubState == HubConnectionState.Disconnected) {
       final httpConnectionOptions = HttpConnectionOptions(
-        /*
+        
         logger: logger,
         logMessageContent: true
-        */
+        
       );
     if (hubState == HubConnectionState.Disconnected) {
       _hubConnection = HubConnectionBuilder()
         .withUrl(_serverUrl, options: httpConnectionOptions)
         .withAutomaticReconnect(retryDelays: [2000, 5000, 10000, 20000])
-        //.configureLogging(logger)
+        .configureLogging(logger)
         .build();
       }
       _hubConnection.onclose(({error}) => print("Connection closed"));
@@ -150,9 +150,8 @@ class ChatPageViewModel extends ViewModel {
         List jsonData =
         json.decode(response.body) as List<dynamic>;
         print("Messages on the list : ${jsonData.length}");
-        //print(jsonData[1].runtimeType);
         
-        for( var i = 0; i < jsonData.length; i++ ) { 
+        for(var i = 0; i < jsonData.length; i++) { 
           _chatMessages.add(ChatMessage.fromJson(jsonData[i]));
         }
         
@@ -212,7 +211,7 @@ class ChatMessage {
   final chatRoom = data['chatRoom'];
   final timeStamp = data['timestamp'];
   return ChatMessage(id, message, user, chatRoom, timeStamp);
-}
+  }
 
 
 }
