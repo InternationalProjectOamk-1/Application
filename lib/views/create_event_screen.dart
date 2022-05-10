@@ -11,15 +11,16 @@ class CreateEventScreen extends StatefulWidget {
 
 DateTime _selectedStart = DateTime.now();
 DateTime _selectedEnd = DateTime.now();
+TextEditingController _titleController = TextEditingController();
+TextEditingController _placeController = TextEditingController();
+TextEditingController _interestsController = TextEditingController();
+TextEditingController _numberOfPeopleController = TextEditingController();
+var selectedPlace = "";
 
 class _CreateEventScreenState extends State<CreateEventScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    TextEditingController _titleController = TextEditingController();
-    TextEditingController _placeController = TextEditingController();
-    TextEditingController _interestsController = TextEditingController();
-    TextEditingController _numberOfPeopleController = TextEditingController();
 
     return Scaffold(
       backgroundColor: Colors.orange[100],
@@ -53,16 +54,18 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                           ),
                           const Divider(height: 10),
                           Container(
+                            height: 50,
                             decoration: myCreateEventCustom,
-                            child: TextField(
-                              controller: _placeController,
-                              onSubmitted: (String value) => print(value),
-                              decoration: const InputDecoration(
-                                hintText: "Place",
-                                prefixIcon: Icon(Icons.map),
-                                border: InputBorder.none,
-                              ),
-                            ),
+                            child: Row(children: <Widget>[
+                              const Icon(Icons.place),
+                              TextButton(
+                                  onPressed: () => changePlace(),
+                                  child: selectedPlace == ""
+                                      ? const Text(
+                                          "Select place",
+                                        )
+                                      : Text(selectedPlace)),
+                            ]),
                           ),
                           const Divider(height: 10),
                           Container(
@@ -163,5 +166,11 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
         ),
       ),
     );
+  }
+
+  changePlace() {
+    setState(() {
+      selectedPlace = "Selected";
+    });
   }
 }

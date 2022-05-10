@@ -3,11 +3,13 @@ import 'package:mapplication/styles/home_style.dart';
 import 'package:mapplication/views/home_screen.dart';
 import 'package:mapplication/widgets/event_info.dart';
 
-Padding eventBuilder(BuildContext context, int index) {
+import '../models/event_model.dart';
+
+Padding eventBuilder(BuildContext context, EventData event) {
   return Padding(
     padding: const EdgeInsets.all(10.0),
     child: GestureDetector(
-      onTap: () => EventInfo(context, index),
+      onTap: () => EventInfo(context, event),
       child: Container(
         padding: const EdgeInsets.all(5.0),
         decoration: myOrangeCustom,
@@ -15,7 +17,7 @@ Padding eventBuilder(BuildContext context, int index) {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              eventsData[index].title,
+              event.title,
               //style: Theme.of(context).textTheme.displayMedium,
             ),
             Row(
@@ -25,14 +27,14 @@ Padding eventBuilder(BuildContext context, int index) {
                   children: [
                     const Icon(Icons.group),
                     Text(
-                      '${eventsData[index].members}/${eventsData[index].maxPeople}',
+                      '${event.members}/${event.maxPeople}',
                     )
                   ],
                 ),
                 Row(
                   children: [
                     const Icon(Icons.manage_accounts_sharp),
-                    Text('${eventsData[index].hostID}'),
+                    Text('${event.hostID}'),
                   ],
                 ),
               ],

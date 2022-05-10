@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ListView.builder(
               itemCount: eventsData.length,
               itemBuilder: (context, index) {
-                return eventBuilder(context, index);
+                return eventBuilder(context, eventsData[index]);
               },
             ),
             Padding(
