@@ -7,7 +7,7 @@ import 'package:mapplication/widgets/input_error_notice.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/input_field_widget.dart';
-import '../consts/user_service_consts.dart ' as constants;
+import '../consts/service_consts.dart ' as constants;
 
 
 /*
@@ -37,35 +37,39 @@ class _SignInScreenState extends State<SignInScreen> {
   var jsonData = null;
 
   void forgor() {
-  print("Forgot password pressed");
+    print("Forgot password pressed");
   }
 
-  void register(String username, String email, String password) async {
+  void register(String username, String email, String password, String profileImg) async {
+
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
     Map<String, String> data = {
       'username': username,
       'email': email,
-      'password': password
+      'password': password,
+      'profileImg': 'https://i.redd.it/86rcqld6lxn81.jpg'
     };
 
     try{
       
     http.Response response = await http.post(
         
-        Uri.http(constants.BASE_PATH, constants.REGISTER),
-        
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=utf-8',
-        },
-        body: jsonEncode(data)
-        
-      );
+      Uri.http(constants.BASE_PATH, constants.REGISTER),
+      
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+      body: jsonEncode(data)
+      
+    );
 
       if(response.statusCode == 200){
-        
-        String responseApi = response.body.toString().replaceAll("\n","");
-        jsonData = jsonDecode(responseApi); 
         print('SignUp successfully');
-
+        
+        sharedPreferences.setString('jwt', response.body);
+        sharedPreferences.setString('username', username);
+      
       }else {
         print(jsonEncode(data).replaceAll(",", ",\n"));
         print('Returned with HTTP status: ${response.statusCode}');
@@ -99,8 +103,8 @@ class _SignInScreenState extends State<SignInScreen> {
                   colors: [
                     Color(0xff5ac18e),
                     Colors.white,
-                  ]
-                )
+                  ],
+                ),
               ),
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(
@@ -146,9 +150,9 @@ class _SignInScreenState extends State<SignInScreen> {
                       type: TextInputType.text,  
                       iconType: Icons.lock,
                     ),
-                    
-                   const SizedBox(height: 8),
-                     _inputError
+                    const SizedBox(height: 8),
+
+                    _inputError
                     ?
                     InputError(
                       typeOfError: jsonData,
@@ -158,7 +162,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     const SizedBox(height: 0),
 
                     const SizedBox(height: 50),
-                    
+                      
                     _signUpPressed == true && _inputError != false
                     ?
                     const Text(
@@ -182,7 +186,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           setState(() {
                             _signUpPressed = true;
                           });
-                          register(_usernameController.text, _emailController.text, _pwController.text);
+                          register(_usernameController.text, _emailController.text, _pwController.text, 'https://i.redd.it/86rcqld6lxn81.jpg');
                         },
                         child: const Text(
                           'Sign Up',
@@ -203,14 +207,14 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                       onPressed: () {
                         setState(() {
-                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => const LoginScreen()), (route) => false);
+                          Navigator.of(context).pop(MaterialPageRoute(builder: (BuildContext context) => const LoginScreen()));
                         });
                       },
                     ),
                   ],
                 ),
               ),  
-            )
+            ),
           ],
         ),
       ),
