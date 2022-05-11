@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
 class EventData {
@@ -83,10 +84,10 @@ final response = await http.post(
         "hasStarted": hasStarted
       }));
   print(json.encode(response.body));
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200 && response.body.isNotEmpty) {
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
-    print('result: ' + jsonDecode(response.body));
+    print('result: ' + response.body.toString());
     return EventData.fromJson(jsonDecode(response.body));
   } else {
     print(response.statusCode);
