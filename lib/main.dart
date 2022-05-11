@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mapplication/models/user_details.dart';
 import 'package:mapplication/views/chat_page.dart';
 import 'package:mapplication/views/home_screen.dart';
 import 'package:mapplication/views/login_view.dart';
@@ -11,10 +12,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Map<String, dynamic> data = await getTokenAndLogIn();
-  
-  
-  //var status = prefs.getBool('isLoggedIn') ?? false;
-  runApp(data['status'] == true ? MyApp1() : MyApp2());
+  UserData userData = await getUserDetails();
+  print(userData.id);
+  runApp(data['status'] == true ? const MyApp1() : const MyApp2());
 }
 
 Future<Map<String, dynamic>> getTokenAndLogIn() async {
@@ -22,12 +22,11 @@ Future<Map<String, dynamic>> getTokenAndLogIn() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   userData["status"] = prefs.getBool('isLoggedIn');
   userData["token"] = prefs.getString('token');
-  print(userData);
   return userData;
 }
 
 class MyApp1 extends StatelessWidget {
-   MyApp1({Key? key}) : super(key: key);
+   const MyApp1({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +66,7 @@ class MyApp1 extends StatelessWidget {
 }
 
 class MyApp2 extends StatelessWidget {
-   MyApp2({Key? key}) : super(key: key);
+    const MyApp2({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
