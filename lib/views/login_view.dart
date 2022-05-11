@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:mapplication/views/home_screen.dart';
+import 'package:mapplication/main.dart';
 import 'package:mapplication/widgets/input_error_notice.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,8 +11,7 @@ import '../consts/service_consts.dart ' as constants;
 
 /*
 TO-DO: 
-- Implement errors for different HTTP codes.
-- Widgets for showing errors below fields
+
 - Remove print functions when done.
 */
 
@@ -24,57 +23,16 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  
+  // Properties start
+
   TextEditingController _emailController = TextEditingController();
   TextEditingController _pwController = TextEditingController();
-
-
   bool _inputError = false;
   int _statusCode = 0;
   var jsonData = null;
 
-  
-  void login(email, password) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-
-    Map<String, String> data = {'email': email, 'password': password};
-
-    try {
-      http.Response response = await http.get(
-          Uri.http(constants.BASE_PATH, constants.LOGIN, data),
-          headers: {"Accept": "application/json"});
-
-      if (response.statusCode == 200) {
-        print('Returned with HTTP status: ${response.statusCode}');
-        String responseApi = response.body.toString().replaceAll("\n", "");
-        jsonData = responseApi;
-
-        setState(() {
-          sharedPreferences.setString('token', jsonData);
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (BuildContext context) => const HomeScreen()),
-          );
-        });
-      } else {
-        print('Returned with HTTP status: ${response.statusCode}');
-        _inputError = true;
-        _statusCode = response.statusCode;
-        String responseApi = response.body.toString().replaceAll("\n", "");
-
-        if (responseApi.isNotEmpty) {
-          jsonData = responseApi;
-        } else {
-          print('No content to show');
-        }
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  void forgor() {
-    print("Forgot password pressed");
-  }
+  // Methods start
 
   @override
   Widget build(BuildContext context) {
@@ -206,5 +164,51 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  void login(email, password) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+    Map<String, String> data = {'email': email, 'password': password};
+
+    try {
+      http.Response response = await http.get(
+        Uri.http(constants.BASE_PATH, constants.LOGIN, data),
+        headers: {"Accept": "application/json"});
+
+      if (response.statusCode == 200) {
+        print('Returned with HTTP status: ${response.statusCode}');
+        String responseApi = response.body.toString().replaceAll("\n", "");
+        jsonData = responseApi;
+
+        setState(() {
+          sharedPreferences.setString('token', jsonData);
+          sharedPreferences.setBool('isLoggedIn', true);
+        });
+        
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (BuildContext context) => MyApp1()),
+          (route) => false);
+
+      } else {
+        print('Returned with HTTP status: ${response.statusCode}');
+        _inputError = true;
+        _statusCode = response.statusCode;
+        String responseApi = response.body.toString().replaceAll("\n", "");
+
+        if (responseApi.isNotEmpty) {
+          jsonData = responseApi;
+        } else {
+          print('No content to show');
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  void forgor() {
+    print("Forgot password pressed");
   }
 }
