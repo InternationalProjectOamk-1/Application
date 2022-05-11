@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:mapplication/models/event_model.dart';
 import 'package:mapplication/styles/home_style.dart';
-import 'package:mapplication/views/home_screen.dart';
 import 'package:mapplication/widgets/event_info.dart';
 
-import '../models/event_model.dart';
-
-Padding eventBuilder(BuildContext context, EventData event) {
+Padding eventBuilder(
+    BuildContext context, EventData event, Function() refresh) {
   return Padding(
     padding: const EdgeInsets.all(10.0),
     child: GestureDetector(
-      onTap: () => EventInfo(context, event),
+      onTap: () => EventInfo(context, event, refresh),
       child: Container(
         padding: const EdgeInsets.all(5.0),
         decoration: myOrangeCustom,
@@ -27,7 +26,7 @@ Padding eventBuilder(BuildContext context, EventData event) {
                   children: [
                     const Icon(Icons.group),
                     Text(
-                      '${event.members}/${event.maxPeople}',
+                      '${event.members!.length}/${event.maxPeople}',
                     )
                   ],
                 ),

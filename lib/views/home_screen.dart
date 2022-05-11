@@ -23,8 +23,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
-  void refresh() {
-    setState(() {});
+  refresh() {
+    setState(() => loading = true);
     loadEvents();
   }
 
@@ -34,67 +34,54 @@ class _HomeScreenState extends State<HomeScreen> {
     if (loading) {
       return const Center(child: CircularProgressIndicator());
     } else {
-      return SafeArea(
-        child: Stack(
-          children: <Widget>[
-            ListView.builder(
-              itemCount: eventsData.length,
-              itemBuilder: (context, index) {
-                return eventBuilder(context, eventsData[index]);
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: GestureDetector(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const CreateEventScreen(),
-                    ),
-                  ),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: size.width * .2,
-                      vertical: 10,
-                    ),
-                    decoration: myProfileCustom,
-                    child: const Icon(
-                      Icons.event,
-                      color: Colors.orange,
-                    ),
-                  ),
-                ),
+      return RefreshIndicator(
+        onRefresh: () => refresh(),
+        child: SafeArea(
+          child: Stack(
+            children: <Widget>[
+              ListView.builder(
+                addAutomaticKeepAlives: false,
+                itemCount: eventsData.length,
+                itemBuilder: (context, index) {
+                  return eventBuilder(context, eventsData[index], refresh);
+                },
               ),
-            ),
-            ProfileButton(
-              icon: Icons.person,
-              press: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ProfileScreen(),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(25.0),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: GestureDetector(
-                  onTap: () => refresh(),
-                  child: Container(
-                    padding: const EdgeInsets.all(10.0),
-                    decoration: myProfileCustom,
-                    child: const Icon(
-                      Icons.refresh,
-                      color: Colors.orange,
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CreateEventScreen(),
+                      ),
+                    ),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: size.width * .2,
+                        vertical: 10,
+                      ),
+                      decoration: myProfileCustom,
+                      child: const Icon(
+                        Icons.event,
+                        color: Colors.orange,
+                      ),
                     ),
                   ),
                 ),
               ),
-            )
-          ],
+              ProfileButton(
+                icon: Icons.person,
+                press: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ProfileScreen(),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       );
     }
