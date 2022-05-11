@@ -13,7 +13,7 @@ class SmallMapScreen extends StatefulWidget {
 
 class _SmallMapScreenState extends State<SmallMapScreen> {
   late GoogleMapController _mapController;
-  //_SmallMapScreenState();
+  _SmallMapScreenState();
   
   @override
   void dispose() {

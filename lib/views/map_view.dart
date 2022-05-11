@@ -56,7 +56,7 @@ class _MapScreenState extends State<MapScreen> {
               myLocationButtonEnabled: true,
               myLocationEnabled: true,
               initialCameraPosition: const CameraPosition(
-                target: LatLng(10, 0),
+                target: LatLng(50,15),
                 zoom: 1,
               ),
               markers: Set<Marker>.of(allMarkers),
@@ -99,9 +99,6 @@ class _MapScreenState extends State<MapScreen> {
     LatLng latLngPosition =
         LatLng(currentPosition.latitude, currentPosition.longitude);
 
-    //_initialPosition =
-    //    LatLng(currentPosition.latitude, currentPosition.longitude);
-
     CameraPosition cameraPosition =
         CameraPosition(target: latLngPosition, zoom: 12);
     _mapController
@@ -124,8 +121,8 @@ class _MapScreenState extends State<MapScreen> {
                   builder: (context) => CreateEventScreenFromMap(
                         sendedpos: pos,
                       ))),
-          title: 'My event',
-          snippet: 'Event taking place',
+          title: 'New Event',
+          snippet: 'Tap here to create a new event!',
         ),
       ));
     });
