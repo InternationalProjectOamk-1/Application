@@ -43,7 +43,7 @@ Future<dynamic> EventInfo(
           onPressed: () async {
             print("Pressed join");
             await joinEvent(event.id, userToken);
-            refresh();
+            Navigator.pop(context);
           },
           child: const Text("Join!"),
         ),
