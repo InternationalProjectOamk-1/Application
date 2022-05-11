@@ -10,9 +10,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Map<String, dynamic> data = await getTokenAndLogIn();
+  
+  
+  //var status = prefs.getBool('isLoggedIn') ?? false;
+  runApp(data['status'] == true ? MyApp1() : MyApp2());
+}
+
+Future<Map<String, dynamic>> getTokenAndLogIn() async {
+  Map<String, dynamic> userData = {};
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  var status = prefs.getBool('isLoggedIn') ?? false;
-  runApp(status == true ? MyApp1() : MyApp2());
+  userData["status"] = prefs.getBool('isLoggedIn');
+  userData["token"] = prefs.getString('token');
+  print(userData);
+  return userData;
 }
 
 class MyApp1 extends StatelessWidget {
