@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mapplication/styles/map_style.dart';
 
 class SelectEventLocation extends StatefulWidget {
   const SelectEventLocation({ Key? key }) : super(key: key);
@@ -32,13 +33,18 @@ class _SelectEventLocationState extends State<SelectEventLocation> {
         zoomControlsEnabled: false,
         zoomGesturesEnabled: true,
         tiltGesturesEnabled: false,
-        initialCameraPosition: CameraPosition(target: LatLng(57, 13), zoom: 4),
-        onMapCreated: (controller) => _mapController = controller,
+        initialCameraPosition: const CameraPosition(target: LatLng(57, 13), zoom: 4),
+        onMapCreated: _onMapCreated,
         onTap: _handleOnTap,),
     );
   }
 
   _handleOnTap(LatLng pos) {
     Navigator.pop(context, pos);
+  }
+
+    _onMapCreated(GoogleMapController controller) {
+    _mapController = controller;
+    controller.setMapStyle(Utils.mapStyle);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mapplication/styles/map_style.dart';
 
 class SmallMapScreen extends StatefulWidget {
   //const SmallMapScreen({ Key? key, this.lat, this.lng }) : super(key: key);
@@ -32,12 +33,17 @@ class _SmallMapScreenState extends State<SmallMapScreen> {
         zoomGesturesEnabled: false,
         tiltGesturesEnabled: false,
         initialCameraPosition: CameraPosition(target: LatLng(widget.lat, widget.lng), zoom: 12),
-        onMapCreated: (controller) => _mapController = controller,
+        onMapCreated: _onMapCreated,
         markers: {
           Marker(position: LatLng(widget.lat, widget.lng),
           icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
           markerId: const MarkerId('event_id'))
         },),
     );
+  }
+
+  _onMapCreated(GoogleMapController controller) {
+    _mapController = controller;
+    controller.setMapStyle(Utils.mapStyle);
   }
 }
