@@ -167,7 +167,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                       if(posLat != 0 && posLng != 0) {
                                         print('CURRENTLY AT BUTTON');
                                         print(_selectedStart);
-                                        createEvent('description', _titleController.text, [0,1], true, posLat, posLng, tempUser, 4, 2, "2022-05-16T09:12:46.042", true);
+                                        createEvent('description', _titleController.text, [0,1], true, posLat, posLng, tempUser, 4, 2, "2022-05-16T09:12:46.042", false);
                                       }
                                   }
                                 
