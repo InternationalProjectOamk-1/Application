@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:mapplication/consts/service_consts.dart';
 import 'package:mapplication/views/login_view.dart';
 import 'package:mapplication/widgets/input_error_notice.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -55,7 +56,7 @@ class _SignInScreenState extends State<SignInScreen> {
       
     http.Response response = await http.post(
         
-      Uri.http(constants.BASE_PATH, constants.REGISTER),
+      Uri.http(BASE_PATH2, REGISTER),
       
       headers: <String, String>{
         'Content-Type': 'application/json; charset=utf-8',
