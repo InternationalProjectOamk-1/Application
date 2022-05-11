@@ -22,8 +22,6 @@ class _MapScreenState extends State<MapScreen> {
   var _state = 'Loading';
   Position? currentPosition;
   var geoLocator = Geolocator();
-  //static late LatLng _initialPosition;
-  //static LatLng _lastMapPosition = _initialPosition;
 
   @override
   void initState() {
