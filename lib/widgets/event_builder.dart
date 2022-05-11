@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mapplication/styles/home_style.dart';
-import 'package:mapplication/views/home_screen.dart';
 import 'package:mapplication/widgets/event_info.dart';
 
 import '../models/event_model.dart';

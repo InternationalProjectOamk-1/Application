@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mapplication/models/event_model.dart';
-import 'package:mapplication/widgets/event_modify.dart';
 
-Future<dynamic> EventInfo(BuildContext context, EventData event) {
+TextEditingController _newTitle = TextEditingController();
+TextEditingController _newDescription = TextEditingController();
+
+Future<dynamic> EventEdit(BuildContext context, EventData event) {
+  EventData newEvent = event;
   return showDialog(
     context: context,
     builder: (_) => SimpleDialog(
@@ -12,28 +15,30 @@ Future<dynamic> EventInfo(BuildContext context, EventData event) {
         Align(
           alignment: Alignment.topRight,
           child: GestureDetector(
-            onTap: () => EventEdit(context, event),
-            child: const Icon(Icons.settings),
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: const Icon(Icons.check),
           ),
         ),
         Align(
           alignment: Alignment.center,
-          child: Text(
-            event.title,
+          child: TextField(
+            controller: _newTitle,
             style: Theme.of(context).textTheme.headline4,
+            decoration: InputDecoration(hintText: event.title),
           ),
         ),
         const Divider(),
-        Text("desciption: ${event.description}"),
+        TextField(
+          controller: _newDescription,
+          decoration: InputDecoration(
+            hintText: "desciption: ${event.description}",
+          ),
+        ),
         const Divider(),
         Text("Starts: ${event.startEvent}"),
         const Divider(),
-        event.locationBased == true ? const Text("Map") : const Text("Online"),
-        const Divider(),
-        TextButton(
-          onPressed: () {},
-          child: const Text("Join!"),
-        ),
       ],
     ),
     barrierDismissible: true,
