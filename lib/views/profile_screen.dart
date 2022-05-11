@@ -66,7 +66,7 @@ class ProfileScreen extends StatelessWidget {
               ),
                TextButton(
                 onPressed: () => deletePrefs(context),
-                child: Text(
+                child: const Text(
                   'LogOut'
                 ),
               )

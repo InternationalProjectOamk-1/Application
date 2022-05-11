@@ -9,10 +9,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 class ChatPage extends StatelessWidget {
-  const ChatPage({Key? key}) : super(key: key);
+   ChatPage(this.name,{Key? key}) : super(key: key);
 
   // Properties
-
+  String? name;
   // Methods
 
   @override
@@ -31,7 +31,7 @@ class ChatPage extends StatelessWidget {
                 RoomChangeView(),
                 Divider(),
                 Expanded(
-                  child: MessageChatView(),
+                  child: MessageChatView(name),
                 ),
                 MessageComposeView(),
               ],
@@ -44,11 +44,11 @@ class ChatPage extends StatelessWidget {
 }
 
 class MessageChatView extends StatelessWidget {
-  MessageChatView({Key? key}) : super(key: key);
+  MessageChatView(this.name,{Key? key}) : super(key: key);
 
   // Properties start
 
-  late String _username = "Quest1";
+  late String? name;
 
   // Methods start
 
@@ -68,7 +68,7 @@ class MessageChatView extends StatelessWidget {
                 reverse: true,
                 itemCount: vm.chatMessages.length,
                 itemBuilder: (BuildContext ctx, int index) =>
-                  _createMessageItemViewAlt(vm.chatMessages.reversed.toList()[index], context),
+                  createMessageItemViewAlt(vm.chatMessages.reversed.toList()[index], context, name),
               );
             },
           )
@@ -77,9 +77,10 @@ class MessageChatView extends StatelessWidget {
     );
   }
 
-  Widget _createMessageItemViewAlt(ChatMessage message, BuildContext context) {
+  Widget createMessageItemViewAlt(ChatMessage message, BuildContext context, String? name) {
+    print(name);
     return Column(
-      crossAxisAlignment: message.user != _username
+      crossAxisAlignment: message.user != name.toString()
       ? 
       CrossAxisAlignment.start
       :
@@ -87,7 +88,7 @@ class MessageChatView extends StatelessWidget {
       children: [
         Flex(
           direction: Axis.horizontal,
-          mainAxisAlignment: message.user != _username
+          mainAxisAlignment: message.user != name.toString()
           ? 
           MainAxisAlignment.start
           :
@@ -116,39 +117,34 @@ class MessageChatView extends StatelessWidget {
             ),
           ],
         ),
-        message.user != _username
-        ?
-        Text(
-          message.user,
-          style: const TextStyle(
-            fontSize: 12
-          ),
-        )
-        :
-        usernameDisplay(),
+        usernameDisplay(message, name),
         const SizedBox(height: appDefaultPadding)
       ],
     );
   }
 
-  Widget usernameDisplay() {
-    return FutureBuilder<String>(
-      future: fetchUsername(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Text(snapshot.data.toString());
-        } else {
-          return Text('awaiting the future');
-        }
-      },
-    );
+  Widget usernameDisplay(ChatMessage message, String? name) {
+    if(message.user != name.toString()){
+      return Text(
+        message.user,
+        style: const TextStyle(
+          fontSize: 12
+        ),
+      );
+    } else {
+      return Text(
+        name.toString(),
+        style: const TextStyle(
+          fontSize: 12
+        ),
+      );
+    }
   }
 
   Future<String> fetchUsername() async{
     String username;
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     username = sharedPreferences.getString("username")!;
-    _username = username;
     return username;
   }
 }

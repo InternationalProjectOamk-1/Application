@@ -13,8 +13,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Map<String, dynamic> data = await getTokenAndLogIn();
   UserData userData = await getUserDetails();
-  print(userData.id);
-  runApp(data['status'] == true ? const MyApp1() : const MyApp2());
+  print(userData.name);
+  runApp(data['status'] == true ?  MyApp1(userData.name) : const MyApp2());
 }
 
 Future<Map<String, dynamic>> getTokenAndLogIn() async {
@@ -26,7 +26,9 @@ Future<Map<String, dynamic>> getTokenAndLogIn() async {
 }
 
 class MyApp1 extends StatelessWidget {
-   const MyApp1({Key? key}) : super(key: key);
+    MyApp1(this.name, {Key? key}) : super(key: key);
+
+    String? name;
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +53,8 @@ class MyApp1 extends StatelessWidget {
             onPageChanged: (controller) => print(controller),
             controller: controller,
             scrollDirection: Axis.horizontal,
-            children: const <Widget>[
-              ChatPage(),
+            children:  <Widget>[
+              ChatPage(name),
               HomeScreen(),
               MapScreen(),
             ],
