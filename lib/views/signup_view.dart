@@ -55,14 +55,14 @@ class _SignInScreenState extends State<SignInScreen> {
       
     http.Response response = await http.post(
         
-        Uri.http(constants.BASE_PATH, constants.REGISTER),
-        
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=utf-8',
-        },
-        body: jsonEncode(data)
-        
-      );
+      Uri.http(constants.BASE_PATH, constants.REGISTER),
+      
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+      body: jsonEncode(data)
+      
+    );
 
       if(response.statusCode == 200){
         print('SignUp successfully');
