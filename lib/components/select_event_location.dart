@@ -32,6 +32,7 @@ class _SelectEventLocationState extends State<SelectEventLocation> {
         zoomControlsEnabled: false,
         zoomGesturesEnabled: true,
         tiltGesturesEnabled: false,
+        padding: const EdgeInsets.only(top: 31.0),
         initialCameraPosition: const CameraPosition(
                 target: LatLng(50,15),
                 zoom: 1,
@@ -84,5 +85,6 @@ class _SelectEventLocationState extends State<SelectEventLocation> {
     _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
     controller.setMapStyle(Utils.mapStyle);
+    setState(() {});
   }
 }
