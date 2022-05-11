@@ -8,13 +8,20 @@ import 'package:mapplication/widgets/bottom_bar.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
+var userToken = "";
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Map<String, dynamic> data = await getTokenAndLogIn();
+<<<<<<< HEAD
   UserData userData = await getUserDetails();
   print(userData.id);
   runApp(data['status'] == true ? const MyApp1() : const MyApp2());
+=======
+
+  //var status = prefs.getBool('isLoggedIn') ?? false;
+  userToken = data['token'];
+  runApp(data['status'] == true ? MyApp1() : MyApp2());
+>>>>>>> master
 }
 
 Future<Map<String, dynamic>> getTokenAndLogIn() async {
@@ -26,11 +33,14 @@ Future<Map<String, dynamic>> getTokenAndLogIn() async {
 }
 
 class MyApp1 extends StatelessWidget {
+<<<<<<< HEAD
    const MyApp1({Key? key}) : super(key: key);
+=======
+  MyApp1({Key? key}) : super(key: key);
+>>>>>>> master
 
   @override
   Widget build(BuildContext context) {
-    
     final PageController controller = PageController(initialPage: 1);
     return MaterialApp(
       title: 'Flutter Demo',
@@ -39,15 +49,14 @@ class MyApp1 extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
-        bottomNavigationBar: 
-        BottomBar(
+        bottomNavigationBar: BottomBar(
           controller: controller,
         ),
         body: DoubleBackToCloseApp(
           snackBar: const SnackBar(
             content: Text(
               'Tap again to exit',
-              ),
+            ),
           ),
           child: PageView(
             onPageChanged: (controller) => print(controller),
@@ -66,11 +75,14 @@ class MyApp1 extends StatelessWidget {
 }
 
 class MyApp2 extends StatelessWidget {
+<<<<<<< HEAD
     const MyApp2({Key? key}) : super(key: key);
+=======
+  MyApp2({Key? key}) : super(key: key);
+>>>>>>> master
 
   @override
   Widget build(BuildContext context) {
-    
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
@@ -90,4 +102,3 @@ class MyApp2 extends StatelessWidget {
     );
   }
 }
-
