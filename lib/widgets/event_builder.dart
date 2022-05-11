@@ -3,11 +3,12 @@ import 'package:mapplication/models/event_model.dart';
 import 'package:mapplication/styles/home_style.dart';
 import 'package:mapplication/widgets/event_info.dart';
 
-Padding eventBuilder(BuildContext context, EventData event) {
+Padding eventBuilder(
+    BuildContext context, EventData event, Function() refresh) {
   return Padding(
     padding: const EdgeInsets.all(10.0),
     child: GestureDetector(
-      onTap: () => EventInfo(context, event),
+      onTap: () => EventInfo(context, event, refresh),
       child: Container(
         padding: const EdgeInsets.all(5.0),
         decoration: myOrangeCustom,

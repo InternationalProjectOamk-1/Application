@@ -68,26 +68,13 @@ Future<List<EventData>> fetchAllEvents() async {
   }
 }
 
-Future<EventData> updateEvent(EventData updatedEvent) async {
+updateEvent(EventData updatedEvent) async {
   final response = await http.post(
       Uri.parse('http://office.pepr.com:25252/Event/UpdateEvent'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(updatedEvent));
-  print(json.encode(response.body));
-  if (response.statusCode == 200) {
-    // If the server did return a 201 CREATED response,
-    // then parse the JSON.
-    print('result: ' + jsonDecode(response.body));
-    return EventData.fromJson(jsonDecode(response.body));
-  } else {
-    print(response.statusCode);
-    // If the server did not return a 201 CREATED response,
-    // then throw an exception.
-    print('resultti: no can do' + response.body);
-    throw Exception('Failed to create event.');
-  }
 }
 
 Future<EventData> createEvent(
@@ -137,7 +124,10 @@ Future joinEvent(int eventID, String userToken) async {
     Uri.parse('http://office.pepr.com:25252/User/AttendEvent/$eventID'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
-      'Authorization': userToken,
+      'Authorization':
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJJRCI6NTMsImtleSI6IjQ5ZjZmNDQyMjY0MzY4YmUyNzhlYjRhNzVhYjk3MGUwZTZhMTZkYWI0YjI0ZDg2OWZlZTUxYmM1ZDk3MmFiMjAiLCJleHAiOjE2NTM0Nzg1MjYuMH0.LbaLxJbRY62qDddfb00tTLuiD5yE1Hrmbk9XdS4z7EY',
     },
   );
+  print(response.statusCode);
+  print(response.body);
 }

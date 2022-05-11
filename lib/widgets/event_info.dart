@@ -4,7 +4,8 @@ import 'package:mapplication/main.dart';
 import 'package:mapplication/models/event_model.dart';
 import 'package:mapplication/widgets/event_modify.dart';
 
-Future<dynamic> EventInfo(BuildContext context, EventData event) {
+Future<dynamic> EventInfo(
+    BuildContext context, EventData event, VoidCallback refresh) {
   return showDialog(
     context: context,
     builder: (_) => SimpleDialog(
@@ -26,7 +27,11 @@ Future<dynamic> EventInfo(BuildContext context, EventData event) {
           ),
         ),
         const Divider(),
-        Text("desciption: ${event.description}"),
+        Text("Host: ${event.hostID}"),
+        const Divider(),
+        Text("Desciption: ${event.description}"),
+        const Divider(),
+        Text("Members: ${event.members}"),
         const Divider(),
         Text("Starts: ${event.startEvent}"),
         const Divider(),
@@ -35,9 +40,10 @@ Future<dynamic> EventInfo(BuildContext context, EventData event) {
             : const Text("Online"),
         const Divider(),
         TextButton(
-          onPressed: () {
-            print("Joined to event n. ${event.id}");
-            joinEvent(event.id, userToken);
+          onPressed: () async {
+            print("Pressed join");
+            await joinEvent(event.id, userToken);
+            refresh();
           },
           child: const Text("Join!"),
         ),

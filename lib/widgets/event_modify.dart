@@ -5,7 +5,6 @@ TextEditingController _newTitle = TextEditingController();
 TextEditingController _newDescription = TextEditingController();
 
 Future<dynamic> EventEdit(BuildContext context, EventData event) {
-  EventData newEvent = event;
   return showDialog(
     context: context,
     builder: (_) => SimpleDialog(
@@ -16,6 +15,22 @@ Future<dynamic> EventEdit(BuildContext context, EventData event) {
           alignment: Alignment.topRight,
           child: GestureDetector(
             onTap: () {
+              EventData modifyidEvent = EventData(
+                id: event.id,
+                description: _newDescription.text,
+                interests: event.interests,
+                members: event.members,
+                title: _newTitle.text,
+                locationBased: event.locationBased,
+                latitude: event.latitude,
+                longitude: event.longitude,
+                hostID: event.hostID,
+                maxPeople: event.maxPeople,
+                minPeople: event.minPeople,
+                startEvent: event.startEvent,
+                hasStarted: event.hasStarted,
+              );
+              updateEvent(modifyidEvent);
               Navigator.pop(context);
             },
             child: const Icon(Icons.check),
