@@ -1,10 +1,10 @@
-//import 'package:clippy_flutter/arc.dart';
-import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mapplication/models/event_model.dart';
+import 'package:mapplication/views/create_event_from_map.dart';
 import '../styles/map_style.dart';
 
 class MapScreen extends StatefulWidget {
@@ -15,12 +15,62 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  final Set<Marker> _events = HashSet<Marker>();
-  final placeHolderPos = const LatLng(65.0135579, 25.4809041);
-  late GoogleMapController _mapController;
+  List<Marker> allMarkers = [];
+  List<Marker> userMarker = [];
 
+  late GoogleMapController _mapController;
+  var _state = 'Loading';
   Position? currentPosition;
   var geoLocator = Geolocator();
+  //static late LatLng _initialPosition;
+  //static LatLng _lastMapPosition = _initialPosition;
+
+  @override
+  void initState() {
+    loadMarkers();
+    locatePosition();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_state == 'Loading') {
+      return const Center(child: CircularProgressIndicator());
+    } else if (_state == 'Complete') {
+      return Stack(
+        children: <Widget>[
+          SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: GoogleMap(
+              gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+                Factory<OneSequenceGestureRecognizer>(
+                  () => EagerGestureRecognizer(),
+                ),
+              },
+              tiltGesturesEnabled: false,
+              zoomControlsEnabled: false,
+              rotateGesturesEnabled: true,
+              compassEnabled: true,
+              padding: const EdgeInsets.only(top: 31.0),
+              myLocationButtonEnabled: true,
+              myLocationEnabled: true,
+              initialCameraPosition: const CameraPosition(
+                target: LatLng(10, 0),
+                zoom: 1,
+              ),
+              markers: Set<Marker>.of(allMarkers),
+              onLongPress: _handleLongPress,
+              onMapCreated: _onMapCreated,
+            ),
+          )
+        ],
+      );
+    } else {
+      return const Scaffold(body: Center(child: Text('Something went wrong')));
+    }
+  }
+
   locatePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -43,65 +93,37 @@ class _MapScreenState extends State<MapScreen> {
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    return await Geolocator.getCurrentPosition(
+    Position currentPosition = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
 
-    // Position position = await Geolocator.getCurrentPosition(
-    //     desiredAccuracy: LocationAccuracy.high);
-    // currentPosition = position;
+    LatLng latLngPosition =
+        LatLng(currentPosition.latitude, currentPosition.longitude);
 
-    //LatLng latLngPosition = LatLng(position.latitude, position.longitude);
+    //_initialPosition =
+    //    LatLng(currentPosition.latitude, currentPosition.longitude);
 
-    // CameraPosition cameraPosition =
-    //     CameraPosition(target: latLngPosition, zoom: 11);
-    // _mapController
-    //     .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
-  }
+    CameraPosition cameraPosition =
+        CameraPosition(target: latLngPosition, zoom: 12);
+    _mapController
+        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        GoogleMap(
-          gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
-            Factory<OneSequenceGestureRecognizer>(
-              () => EagerGestureRecognizer(),
-            ),
-          },
-          tiltGesturesEnabled: false,
-          zoomControlsEnabled: false,
-          rotateGesturesEnabled: true,
-          myLocationButtonEnabled: true,
-          myLocationEnabled: true,
-          initialCameraPosition: CameraPosition(
-            target: placeHolderPos,
-            zoom: 12,
-          ),
-          markers: _events,
-          onLongPress: _handleLongPress,
-          onMapCreated: _onMapCreated,
-        ),
-        Container(
-          alignment: Alignment.bottomLeft,
-          padding: const EdgeInsets.fromLTRB(70, 0, 0, 8),
-          child: const Text(
-            'ActMap v. 0.2',
-            style: const TextStyle(),
-          ),
-        )
-      ],
-    );
+    return;
   }
 
   _handleLongPress(LatLng pos) {
     setState(() {
-      //_events = [];
-      _events.add(Marker(
+      allMarkers.add(Marker(
         markerId: MarkerId(pos.toString()),
         position: pos,
         draggable: true,
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
-        infoWindow: const InfoWindow(
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+        infoWindow: InfoWindow(
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => CreateEventScreenFromMap(
+                        sendedpos: pos,
+                      ))),
           title: 'My event',
           snippet: 'Event taking place',
         ),
@@ -112,22 +134,29 @@ class _MapScreenState extends State<MapScreen> {
   _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
     controller.setMapStyle(Utils.mapStyle);
+    setState(() {});
+  }
 
-    locatePosition();
+  loadMarkers() async {
+    List<EventData> markers = [];
+    markers = await fetchAllEvents();
+
+    for (int i = 0; i < markers.length; i++) {
+      LatLng latlng = LatLng(markers[i].latitude!, markers[i].longitude!);
+      allMarkers.add(Marker(
+          markerId: MarkerId(markers[i].id.toString()),
+          position: latlng,
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+          infoWindow: InfoWindow(
+            title: markers[i].title,
+            snippet: markers[i].description,
+            // Implement join onTap?
+          )));
+    }
 
     setState(() {
-      _events.add(
-        Marker(
-          markerId: const MarkerId('0'),
-          position: const LatLng(65.0135579, 25.4809041),
-          icon:
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-          infoWindow: const InfoWindow(
-            title: "Event in Oulu",
-            snippet: "This event is currently taking place",
-          ),
-        ),
-      );
+      _state = "Complete";
     });
   }
 }

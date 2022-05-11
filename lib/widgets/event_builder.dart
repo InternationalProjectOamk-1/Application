@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:mapplication/data/events.dart';
 import 'package:mapplication/styles/home_style.dart';
+import 'package:mapplication/views/home_screen.dart';
+import 'package:mapplication/widgets/event_info.dart';
 
-Padding eventBuilder(BuildContext context, int index) {
+import '../models/event_model.dart';
+
+Padding eventBuilder(BuildContext context, EventData event) {
   return Padding(
     padding: const EdgeInsets.all(10.0),
     child: GestureDetector(
-      onTap: () => showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          content: Text(event_data[index].toString()),
-          backgroundColor: Colors.orange[100],
-          actions: [TextButton(onPressed: () {}, child: const Text("Join!"))],
-        ),
-        barrierDismissible: true,
-      ),
+      onTap: () => EventInfo(context, event),
       child: Container(
         padding: const EdgeInsets.all(5.0),
         decoration: myOrangeCustom,
@@ -22,8 +17,8 @@ Padding eventBuilder(BuildContext context, int index) {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              event_data[index]['title'].toString(),
-              style: Theme.of(context).textTheme.displayMedium,
+              event.title,
+              //style: Theme.of(context).textTheme.displayMedium,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -32,18 +27,18 @@ Padding eventBuilder(BuildContext context, int index) {
                   children: [
                     const Icon(Icons.group),
                     Text(
-                      '${event_data[index]["members"]}/${event_data[index]["maxPeople"]}',
+                      '${event.members}/${event.maxPeople}',
                     )
                   ],
                 ),
                 Row(
                   children: [
                     const Icon(Icons.manage_accounts_sharp),
-                    Text('${event_data[index]["hostID"]}'),
+                    Text('${event.hostID}'),
                   ],
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
