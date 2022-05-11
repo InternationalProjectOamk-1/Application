@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mapplication/models/event_model.dart';
 import 'package:mapplication/styles/home_style.dart';
 import 'package:mapplication/widgets/event_info.dart';
-
-import '../models/event_model.dart';
 
 Padding eventBuilder(BuildContext context, EventData event) {
   return Padding(
@@ -26,7 +25,7 @@ Padding eventBuilder(BuildContext context, EventData event) {
                   children: [
                     const Icon(Icons.group),
                     Text(
-                      '${event.members}/${event.maxPeople}',
+                      '${event.members!.length}/${event.maxPeople}',
                     )
                   ],
                 ),

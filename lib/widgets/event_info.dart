@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mapplication/components/event_location_window.dart';
+import 'package:mapplication/main.dart';
 import 'package:mapplication/models/event_model.dart';
 import 'package:mapplication/widgets/event_modify.dart';
 
@@ -28,10 +30,15 @@ Future<dynamic> EventInfo(BuildContext context, EventData event) {
         const Divider(),
         Text("Starts: ${event.startEvent}"),
         const Divider(),
-        event.locationBased == true ? const Text("Map") : const Text("Online"),
+        event.locationBased == true
+            ? SmallMapScreen(event.latitude!, event.longitude!)
+            : const Text("Online"),
         const Divider(),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            print("Joined to event n. ${event.id}");
+            joinEvent(event.id, userToken);
+          },
           child: const Text("Join!"),
         ),
       ],

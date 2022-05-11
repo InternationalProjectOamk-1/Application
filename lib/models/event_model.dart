@@ -89,3 +89,55 @@ Future<EventData> updateEvent(EventData updatedEvent) async {
     throw Exception('Failed to create event.');
   }
 }
+
+Future<EventData> createEvent(
+    String description,
+    String title,
+    List tagList,
+    bool locationBased,
+    double latitude,
+    double longitude,
+    int hostId,
+    int maxPeople,
+    int minPeople,
+    String startEvent,
+    bool hasStarted) async {
+  final response = await http.post(
+      Uri.parse('http://office.pepr.com:25252/Event/CreateEvent'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        "description": description,
+        "interests": tagList,
+        "members": [0],
+        "title": title,
+        "locationBased": locationBased,
+        "latitude": latitude,
+        "longitude": longitude,
+        "hostID": hostId,
+        "maxPeople": maxPeople,
+        "minPeople": minPeople,
+        "startEvent": startEvent,
+        "hasStarted": hasStarted
+      }));
+  print(json.encode(response.body));
+  if (response.statusCode == 200) {
+    print('result: ' + response.body);
+    return EventData.fromJson(jsonDecode(response.body));
+  } else {
+    print(response.statusCode);
+    print('resultti: no can do' + response.body);
+    throw Exception('Failed to create event.');
+  }
+}
+
+Future joinEvent(int eventID, String userToken) async {
+  final response = await http.post(
+    Uri.parse('http://office.pepr.com:25252/User/AttendEvent/$eventID'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': userToken,
+    },
+  );
+}

@@ -1,10 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mapplication/components/select_event_location.dart';
+import 'package:mapplication/models/event_model.dart';
 import 'package:mapplication/styles/home_style.dart';
 import 'package:mapplication/widgets/profile_button.dart';
-import 'package:mapplication/models/post_event.dart';
 
 class CreateEventScreen extends StatefulWidget {
   const CreateEventScreen({Key? key}) : super(key: key);
@@ -29,17 +28,17 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     LatLng pos;
-    
 
     changePlace(BuildContext context) async {
-    pos = await Navigator.push(context, MaterialPageRoute(builder: (context) => const SelectEventLocation()));
-    setState(() {
-      selectedPlace = 'Selected';
-      posLat = pos.latitude;
-      posLng = pos.longitude;
+      pos = await Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const SelectEventLocation()));
+      setState(() {
+        selectedPlace = 'Selected';
+        posLat = pos.latitude;
+        posLng = pos.longitude;
 
-      print(selectedPlace);
-    });
+        print(selectedPlace);
+      });
     }
 
     return Scaffold(
@@ -162,15 +161,25 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                               print('ONPRESS');
                               if (_titleController.text != "") {
                                 print('ONTITLE');
-                                  print('ONINTERESTS');
-                                    if (_numberOfPeopleController.text != "") {
-                                      if(posLat != 0 && posLng != 0) {
-                                        print('CURRENTLY AT BUTTON');
-                                        print(_selectedStart);
-                                        createEvent('description', _titleController.text, [0,1], true, posLat, posLng, tempUser, 4, 2, "2022-05-16T09:12:46.042", false);
-                                      }
+                                print('ONINTERESTS');
+                                if (_numberOfPeopleController.text != "") {
+                                  if (posLat != 0 && posLng != 0) {
+                                    print('CURRENTLY AT BUTTON');
+                                    print(_selectedStart);
+                                    createEvent(
+                                        'description',
+                                        _titleController.text,
+                                        [0, 1],
+                                        true,
+                                        posLat,
+                                        posLng,
+                                        tempUser,
+                                        4,
+                                        2,
+                                        "2022-05-16T09:12:46.042",
+                                        false);
                                   }
-                                
+                                }
                               }
                             },
                             child: const Text("Create event"),
