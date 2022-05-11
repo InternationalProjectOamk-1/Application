@@ -8,11 +8,7 @@ import 'package:mapplication/utils/viewModel/view_model_provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logging/logging.dart';
 
-
 typedef HubConnectionProvider = Future<HubConnection> Function();
-
-
-
 
 class ChatPageViewModel extends ViewModel {
 

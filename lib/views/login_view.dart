@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:mapplication/consts/service_consts.dart';
 import 'package:mapplication/main.dart';
 import 'package:mapplication/widgets/input_error_notice.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -173,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     try {
       http.Response response = await http.get(
-        Uri.http(constants.BASE_PATH, constants.LOGIN, data),
+        Uri.http(BASE_PATH2, LOGIN, data),
         headers: {"Accept": "application/json"});
 
       if (response.statusCode == 200) {
