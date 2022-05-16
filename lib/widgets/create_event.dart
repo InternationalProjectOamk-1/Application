@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mapplication/components/create_event_textfield.dart';
-import 'package:mapplication/styles/home_style.dart';
+import 'package:mapplication/styles/feed_style.dart';
 
 class EventButton extends StatelessWidget {
   const EventButton({

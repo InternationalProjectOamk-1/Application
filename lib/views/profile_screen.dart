@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:mapplication/data/users.dart';
+import 'package:mapplication/data/user_data.dart';
 import 'package:mapplication/main.dart';
-import 'package:mapplication/styles/home_style.dart';
+import 'package:mapplication/styles/feed_style.dart';
 import 'package:mapplication/widgets/profile_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -64,11 +64,9 @@ class ProfileScreen extends StatelessWidget {
                 icon: Icons.keyboard_return,
                 press: () => Navigator.pop(context),
               ),
-               TextButton(
+              TextButton(
                 onPressed: () => deletePrefs(context),
-                child: const Text(
-                  'LogOut'
-                ),
+                child: const Text('LogOut'),
               )
             ],
           ),
@@ -82,7 +80,6 @@ deletePrefs(BuildContext context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setBool('isLoggedIn', false);
   Navigator.of(context).pushAndRemoveUntil(
-    MaterialPageRoute(
-      builder: (context) => const MyApp2()),
-  (route) => false);
+      MaterialPageRoute(builder: (context) => const MyApp2()),
+      (route) => false);
 }

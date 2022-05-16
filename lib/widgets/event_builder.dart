@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mapplication/models/event_model.dart';
-import 'package:mapplication/styles/home_style.dart';
+import 'package:mapplication/styles/feed_style.dart';
 import 'package:mapplication/widgets/event_info.dart';
 
 Padding eventBuilder(

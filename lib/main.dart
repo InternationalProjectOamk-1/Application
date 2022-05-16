@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mapplication/models/user_details.dart';
+import 'package:mapplication/apis/user_api.dart';
 import 'package:mapplication/views/chat_page.dart';
-import 'package:mapplication/views/home_screen.dart';
+import 'package:mapplication/views/feed_view.dart';
 import 'package:mapplication/views/login_view.dart';
 import 'package:mapplication/views/map_view.dart';
 import 'package:mapplication/widgets/bottom_bar.dart';
@@ -9,12 +9,14 @@ import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 var userToken = "";
+var userData;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Map<String, dynamic> data = await getTokenAndLogIn();
-  UserData userData = await getUserDetails();
+  userData = await getUserDetails();
   print(userData.name);
-  runApp(data['status'] == true ?  MyApp1(userData.name) : const MyApp2());
+  runApp(data['status'] == true ? MyApp1() : const MyApp2());
 }
 
 Future<Map<String, dynamic>> getTokenAndLogIn() async {
@@ -26,9 +28,9 @@ Future<Map<String, dynamic>> getTokenAndLogIn() async {
 }
 
 class MyApp1 extends StatelessWidget {
-    MyApp1(this.name, {Key? key}) : super(key: key);
+  MyApp1({Key? key}) : super(key: key);
 
-    String? name;
+  String name = userData.name;
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +52,11 @@ class MyApp1 extends StatelessWidget {
             ),
           ),
           child: PageView(
-            onPageChanged: (controller) => print(controller),
             controller: controller,
             scrollDirection: Axis.horizontal,
-            children:  <Widget>[
+            children: <Widget>[
               ChatPage(name),
-              HomeScreen(),
+              FeedView(),
               MapScreen(),
             ],
           ),
@@ -66,7 +67,7 @@ class MyApp1 extends StatelessWidget {
 }
 
 class MyApp2 extends StatelessWidget {
-    const MyApp2({Key? key}) : super(key: key);
+  const MyApp2({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

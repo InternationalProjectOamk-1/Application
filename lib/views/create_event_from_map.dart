@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mapplication/styles/home_style.dart';
+import 'package:mapplication/styles/feed_style.dart';
 import 'package:mapplication/widgets/profile_button.dart';
 
 class CreateEventScreenFromMap extends StatefulWidget {

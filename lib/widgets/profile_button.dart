@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mapplication/styles/home_style.dart';
+import 'package:mapplication/styles/feed_style.dart';
 
 class ProfileButton extends StatelessWidget {
   final IconData icon;

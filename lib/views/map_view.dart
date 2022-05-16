@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mapplication/apis/event_api.dart';
 import 'package:mapplication/models/event_model.dart';
 import 'package:mapplication/views/create_event_from_map.dart';
 import '../styles/map_style.dart';
@@ -54,7 +55,7 @@ class _MapScreenState extends State<MapScreen> {
               myLocationButtonEnabled: true,
               myLocationEnabled: true,
               initialCameraPosition: const CameraPosition(
-                target: LatLng(50,15),
+                target: LatLng(50, 15),
                 zoom: 1,
               ),
               markers: Set<Marker>.of(allMarkers),

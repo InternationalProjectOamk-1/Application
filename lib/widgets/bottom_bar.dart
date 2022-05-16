@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mapplication/components/bottom_bar_item.dart';
-import 'package:mapplication/styles/home_style.dart';
+import 'package:mapplication/styles/feed_style.dart';
 
 class BottomBar extends StatelessWidget {
   final PageController controller;

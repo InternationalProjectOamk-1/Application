@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:mapplication/apis/event_api.dart';
 import 'package:mapplication/models/event_model.dart';
-import 'package:mapplication/styles/home_style.dart';
+import 'package:mapplication/styles/feed_style.dart';
 import 'package:mapplication/views/create_event_screen.dart';
 import 'package:mapplication/views/profile_screen.dart';
 import 'package:mapplication/widgets/event_builder.dart';
 import 'package:mapplication/widgets/profile_button.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class FeedView extends StatefulWidget {
+  const FeedView({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<FeedView> createState() => _FeedViewState();
 }
 
-List<EventData> eventsData = [];
+List<EventData> _eventsData = [];
+var _loading = true;
 
-class _HomeScreenState extends State<HomeScreen> {
-  var loading = true;
+class _FeedViewState extends State<FeedView> {
   @override
   void initState() {
     loadEvents();
@@ -24,14 +25,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   refresh() {
-    setState(() => loading = true);
+    setState(() => _loading = true);
     loadEvents();
   }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    if (loading) {
+    if (_loading) {
       return const Center(child: CircularProgressIndicator());
     } else {
       return RefreshIndicator(
@@ -41,9 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
             children: <Widget>[
               ListView.builder(
                 addAutomaticKeepAlives: false,
-                itemCount: eventsData.length,
+                itemCount: _eventsData.length,
                 itemBuilder: (context, index) {
-                  return eventBuilder(context, eventsData[index], refresh);
+                  return eventBuilder(context, _eventsData[index], refresh);
                 },
               ),
               Padding(
@@ -88,8 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   loadEvents() async {
-    eventsData = await fetchAllEvents();
-
-    setState(() => loading = false);
+    _eventsData = await fetchAllEvents();
+    setState(() => _loading = false);
   }
 }

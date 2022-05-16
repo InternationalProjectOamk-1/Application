@@ -24,7 +24,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  
   // Properties start
 
   TextEditingController _emailController = TextEditingController();
@@ -46,15 +45,15 @@ class _LoginScreenState extends State<LoginScreen> {
               height: double.infinity,
               width: double.infinity,
               decoration: const BoxDecoration(
-								gradient: LinearGradient(
-									begin: Alignment.topLeft,
-									end: Alignment.bottomRight,
-									colors: [
-										Color(0xff5ac18e),
-										Colors.white,
-									],
-								),
-							),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(0xff5ac18e),
+                    Colors.white,
+                  ],
+                ),
+              ),
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 25,
@@ -73,37 +72,33 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 50),
                     BuildFields(
-											controllerType: _emailController,
-											text: 'Email',
-											type: TextInputType.emailAddress,
-											iconType: Icons.email
-										),
+                        controllerType: _emailController,
+                        text: 'Email',
+                        type: TextInputType.emailAddress,
+                        iconType: Icons.email),
                     const SizedBox(height: 8),
                     BuildFields(
-											controllerType: _pwController,
-											text: 'Password',
-											type: TextInputType.text,
-											iconType: Icons.lock
-										),
+                        controllerType: _pwController,
+                        text: 'Password',
+                        type: TextInputType.text,
+                        iconType: Icons.lock),
                     const SizedBox(height: 8),
                     _inputError
-                    ?
-                    InputError(
-                      typeOfError: jsonData.toString(),
-                      errorType: _statusCode,
-                    )
-                    : const SizedBox(height: 0),
+                        ? InputError(
+                            typeOfError: jsonData.toString(),
+                            errorType: _statusCode,
+                          )
+                        : const SizedBox(height: 0),
                     TextButton(
                       onPressed: forgor,
                       //TO-DO: Create proper forget password page
                       child: const Text(
                         'Forgot Password ?',
                         style: TextStyle(
-                          fontFamily: 'Mont',
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 16
-                        ),
+                            fontFamily: 'Mont',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 16),
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -111,9 +106,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 50,
                       width: 200,
                       decoration: BoxDecoration(
-                        color: Colors.blue[400],
-                        borderRadius: BorderRadius.circular(10)
-                      ),
+                          color: Colors.blue[400],
+                          borderRadius: BorderRadius.circular(10)),
                       child: TextButton(
                         onPressed: () {
                           login(_emailController.text, _pwController.text);
@@ -132,29 +126,26 @@ class _LoginScreenState extends State<LoginScreen> {
                     const Text(
                       'Don\'t have an account?',
                       style: TextStyle(
-                        fontFamily: 'Mont',
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 16
-                      ),
+                          fontFamily: 'Mont',
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 16),
                     ),
                     TextButton(
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const SignInScreen()
-                          ),
+                              builder: (context) => const SignInScreen()),
                         );
                       }, //TO-DO: Create proper forget password page
                       child: const Text(
-                      'Sign Up Here',
+                        'Sign Up Here',
                         style: TextStyle(
-                          fontFamily: 'Mont',
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue,
-                          fontSize: 16
-                        ),
+                            fontFamily: 'Mont',
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
+                            fontSize: 16),
                       ),
                     ),
                   ],
@@ -173,9 +164,8 @@ class _LoginScreenState extends State<LoginScreen> {
     Map<String, String> data = {'email': email, 'password': password};
 
     try {
-      http.Response response = await http.get(
-        Uri.http(BASE_PATH2, LOGIN, data),
-        headers: {"Accept": "application/json"});
+      http.Response response = await http.get(Uri.http(BASE_PATH2, LOGIN, data),
+          headers: {"Accept": "application/json"});
 
       if (response.statusCode == 200) {
         print('Returned with HTTP status: ${response.statusCode}');
@@ -186,12 +176,10 @@ class _LoginScreenState extends State<LoginScreen> {
           sharedPreferences.setString('token', jsonData);
           sharedPreferences.setBool('isLoggedIn', true);
         });
-        
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (BuildContext context) => MyApp1("test")),
-          (route) => false);
 
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (BuildContext context) => MyApp1()),
+            (route) => false);
       } else {
         print('Returned with HTTP status: ${response.statusCode}');
         _inputError = true;
