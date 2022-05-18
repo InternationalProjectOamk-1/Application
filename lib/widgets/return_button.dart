@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mapplication/styles/feed_style.dart';
-import 'package:mapplication/views/profile_screen.dart';
 
-class ProfileButton extends StatelessWidget {
-  const ProfileButton({
+class ReturnButton extends StatelessWidget {
+  const ReturnButton({
     Key? key,
   }) : super(key: key);
 
@@ -14,13 +13,12 @@ class ProfileButton extends StatelessWidget {
       child: Align(
         alignment: Alignment.topRight,
         child: GestureDetector(
-          onTap: () => Navigator.push(
-              context, MaterialPageRoute(builder: (context) => const ProfileScreen())),
+          onTap: () => Navigator.pop(context),
           child: Container(
             padding: const EdgeInsets.all(10.0),
             decoration: myProfileCustom,
             child: const Icon(
-              Icons.person,
+              Icons.keyboard_return,
               color: Colors.orange,
             ),
           ),

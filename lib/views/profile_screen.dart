@@ -4,6 +4,7 @@ import 'package:mapplication/data/user_data.dart';
 import 'package:mapplication/main.dart';
 import 'package:mapplication/styles/feed_style.dart';
 import 'package:mapplication/widgets/profile_button.dart';
+import 'package:mapplication/widgets/return_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -60,10 +61,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              ProfileButton(
-                icon: Icons.keyboard_return,
-                press: () => Navigator.pop(context),
-              ),
+              const ReturnButton(),
               TextButton(
                 onPressed: () => deletePrefs(context),
                 child: const Text('LogOut'),

@@ -1,11 +1,11 @@
 import 'dart:convert';
+import 'package:mapplication/consts/service_consts.dart';
 import 'package:mapplication/data/event_data.dart';
 import 'package:mapplication/models/event_model.dart';
 import 'package:http/http.dart' as http;
 
 Future<List<EventData>> fetchAllEvents() async {
-  final response = await http
-      .get(Uri.parse('http://office.pepr.com:25252/Event/getAllEvents'));
+  final response = await http.get(Uri.parse(GET_ALL_EVENTS));
   if (response.body != '[]' && response.statusCode == 200) {
     List eventResponse = json.decode(response.body);
     print('Request succesful: Events');
@@ -20,8 +20,7 @@ Future<List<EventData>> fetchAllEvents() async {
 }
 
 updateEvent(EventData updatedEvent) async {
-  final response = await http.post(
-      Uri.parse('http://office.pepr.com:25252/Event/UpdateEvent'),
+  final response = await http.post(Uri.parse(UPDATE_EVENT),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -29,8 +28,7 @@ updateEvent(EventData updatedEvent) async {
 }
 
 Future<EventData> createEvent(EventData event) async {
-  final response = await http.post(
-      Uri.parse('http://office.pepr.com:25252/Event/CreateEvent'),
+  final response = await http.post(Uri.parse(CREATE_EVENT),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -48,20 +46,10 @@ Future<EventData> createEvent(EventData event) async {
 
 Future joinEvent(int eventID, String userToken) async {
   await http.post(
-    Uri.parse('http://office.pepr.com:25252/User/AttendEvent/$eventID'),
+    Uri.parse(ATTEND_EVENT + eventID.toString()),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': userToken.replaceAll('"', ''),
     },
   );
 }
-
-//Future unattendEvent(int eventID, String userToken) async {
-  //await http.post(
-    //Uri.parse('http://office.pepr.com:25252/User/AttendEvent/$eventID'),
-    //headers: <String, String>{
-      //'Content-Type': 'application/json; charset=UTF-8',
-      //'Authorization': userToken.replaceAll('"', ''),
-    //},
-  //);
-//}

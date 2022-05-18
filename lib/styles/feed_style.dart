@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mapplication/consts/styling_consts.dart';
 
 final BoxDecoration myOrangeCustom = BoxDecoration(
-  color: Colors.orange[100],
+  color: appDefaultColor,
   borderRadius: BorderRadius.circular(20.0),
   boxShadow: const [myBoxShadow],
 );
@@ -19,7 +20,7 @@ final BoxDecoration myCreateEventCustom = BoxDecoration(
 );
 
 const BoxShadow myBoxShadow = BoxShadow(
-  color: Colors.orange,
+  color: appDefaultPrimaryVariant,
   blurRadius: 2,
   offset: Offset(2, 2),
 );

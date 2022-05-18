@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mapplication/styles/feed_style.dart';
-import 'package:mapplication/widgets/profile_button.dart';
+import 'package:mapplication/widgets/return_button.dart';
 
 class CreateEventScreenFromMap extends StatefulWidget {
   final LatLng sendedpos;
@@ -162,10 +162,7 @@ class _CreateEventScreenFromMapState extends State<CreateEventScreenFromMap> {
                   ),
                 ),
               ),
-              ProfileButton(
-                icon: Icons.keyboard_return,
-                press: () => Navigator.pop(context),
-              ),
+              const ReturnButton(),
             ],
           ),
         ),

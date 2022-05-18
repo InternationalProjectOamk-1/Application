@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mapplication/apis/event_api.dart';
 import 'package:mapplication/components/select_event_location.dart';
-import 'package:mapplication/models/event_model.dart';
 import 'package:mapplication/styles/feed_style.dart';
 import 'package:mapplication/widgets/profile_button.dart';
+import 'package:mapplication/widgets/return_button.dart';
 
 class CreateEventScreen extends StatefulWidget {
   const CreateEventScreen({Key? key}) : super(key: key);
@@ -167,10 +166,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   ),
                 ),
               ),
-              ProfileButton(
-                icon: Icons.keyboard_return,
-                press: () => Navigator.pop(context),
-              ),
+              const ReturnButton(),
             ],
           ),
         ),
